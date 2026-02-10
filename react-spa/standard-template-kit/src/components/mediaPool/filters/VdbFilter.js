@@ -13,7 +13,7 @@ export default function VdbFilter({ onUpdateSelectedVdbs, selectedVdbs }) {
 
   const baseUrl = process.env.REACT_APP_MGNL_HOST;
 
-  /* Dohvatanje liste VDB-ova */
+  
   useEffect(() => {
     fetch(`${baseUrl}/rest/mp/v1.1/virtual-databases`)
       .then((response) => response.json())

@@ -19,12 +19,10 @@ function AccordionItem ({
   accordionListProps
 }) {
 
-  /* Properties from AccordionList or AccordionConfigList component */
-
+  
   const listProps = [...accordionListProps];
 
-  /* Open/Close Accordion */
-
+  
   const [open, setOpen] = useState(false);
 
   const toggle = () => {
