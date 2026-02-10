@@ -1,0 +1,156 @@
+{
+    "searchSchemaId": "asset",
+    "lang": "EN",
+    "output": {
+        "items": {
+            "fields": [
+                "id"
+            ]
+        },
+        "paging": {
+            "@type": "offset",
+            "offset": 0,
+            "limit": 1
+        },
+        "aggregates": {
+            "fileSuffix": {
+                "@type": "groups",
+                "field": "extension",
+                "maxGroups": 0,
+                "orderAsc": false,
+                "orderByGroup": false,
+                "include": ".*\\S+"
+            }
+        }
+    },
+    "criteria": {
+        "@type": "and",
+        "subs": [
+            {
+                "@type": "or",
+                "subs": [
+                    {
+                        "@type": "match",
+                        "fields": [
+                            "description_multi",
+                            "itemDescription_multi",
+                            "originalName",
+                            "assetType.name",
+                            "customAttribute_26",
+                            "customAttribute_276",
+                            "customAttribute_426.value",
+                            "customAttribute_427.value",
+                            "customAttribute_430",
+                            "customAttribute_433.value",
+                            "customAttribute_435",
+                            "customAttribute_437",
+                            "customAttribute_439.value",
+                            "customAttribute_440",
+                            "customAttribute_442",
+                            "customAttribute_444.value",
+                            "customAttribute_445.value",
+                            "customAttribute_446.value",
+                            "customAttribute_447",
+                            "customAttribute_448",
+                            "customAttribute_449",
+                            "customAttribute_450.value",
+                            "customAttribute_451.value",
+                            "customAttribute_452",
+                            "customAttribute_453",
+                            "customAttribute_454",
+                            "customAttribute_455.value",
+                            "customAttribute_456.value",
+                            "customAttribute_457",
+                            "customAttribute_458",
+                            "customAttribute_459.value",
+                            "customAttribute_460",
+                            "customAttribute_461",
+                            "customAttribute_462.value",
+                            "customAttribute_463.value",
+                            "customAttribute_464.value",
+                            "customAttribute_465.value",
+                            "customAttribute_466.value",
+                            "customAttribute_467.value",
+                            "customAttribute_469.value",
+                            "customAttribute_470",
+                            "customAttribute_471",
+                            "customAttribute_472",
+                            "customAttribute_473.value",
+                            "customAttribute_474.value",
+                            "customAttribute_475.value",
+                            "customAttribute_477.value",
+                            "customAttribute_479.value",
+                            "customAttribute_526.value",
+                            "customAttribute_576.value",
+                            "ff_20_multi",
+                            "ff_19_multi",
+                            "ff_18_multi",
+                            "ff_16_multi",
+                            "ff_14_multi",
+                            "ff_1_multi",
+                            "ff_10_multi",
+                            "ff_6_multi",
+                            "ff_4_multi",
+                            "ff_5_multi",
+                            "ff_7_multi",
+                            "ff_8_multi",
+                            "ff_12_multi",
+                            "ff_13_multi",
+                            "colorSpace.type",
+                            "countries.id",
+                            "countries.name_multi",
+                            "documentDimensions.unit",
+                            "itemNumber",
+                            "keywords_multi",
+                            "persons",
+                            "extension",
+                            "structuredKeywords.name_multi",
+                            "affiliateNumber",
+                            "id",
+                            "licenseHolderName",
+                            "licenseData.license",
+                            "channelPublications.channelId",
+                            "division.name",
+                            "owner.name",
+                            "themes.name_multi",
+                            "themes.pathIds",
+                            "title_multi",
+                            "vdb.name_multi",
+                            "w2pClassification"
+                        ],
+                        "value": ""
+                    },
+                    {
+                        "@type": "exact_match",
+                        "fields": [
+                            "containedText",
+                            "exifIptcXmpData"
+                        ],
+                        "value": ""
+                    }
+                ]
+            },
+            {
+                "@type": "and",
+                "subs": [
+                    {
+                        "@type": false,
+                        "fields": [
+                            "isVariant"
+                        ]
+                    },
+                    {
+                        "@type": "not",
+                        "criteria": {
+                            "@type": "eq",
+                            "fields": [
+                                "vdb.id"
+                            ],
+                            "long_value": 3
+                        }
+                    }
+                ]
+            }
+        ]
+    }
+}

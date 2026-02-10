@@ -1,0 +1,80 @@
+sites:
+  fallback:
+
+    cors:
+      # This will take effect on DXCORE when Travel Demo IS NOT installed.
+      default:
+        uris:
+          rest:
+            patternString: /.rest/*
+        allowedOrigins:
+          all: '*'
+        allowedMethods:
+          all: '*'
+        allowedHeaders:
+          all: '*'
+
+      # This will take effect on DXCORE when Travel Demo IS installed.
+      travel:
+        uris:
+          rest:
+            patternString: /.rest/*
+        allowedOrigins:
+          all: '*'
+        allowedMethods:
+          all: '*'
+        allowedHeaders:
+          all: '*'
+
+    theme:
+      name: travel-demo-theme
+
+    i18n:
+      class: info.magnolia.cms.i18n.DefaultI18nContentSupport
+      enabled: true
+      fallbackLocale: en
+      locales:
+        en:
+          country: ''
+          enabled: true
+          language: en
+        de:
+          country: ''
+          enabled: true
+          language: de
+        es:
+          country: ''
+          enabled: true
+          language: es
+        pt:
+          country: ''
+          enabled: true
+          language: pt
+        ru:
+          country: ''
+          enabled: true
+          language: ru
+        ja:
+          country: ''
+          enabled: true
+          language: ja
+        ko:
+          country: ''
+          enabled: true
+          language: ko
+        zh:
+          country: ''
+          enabled: true
+          language: zh
+        nl:
+          country: ''
+          enabled: true
+          language: nl
+        it:
+          country: ''
+          enabled: true
+          language: it
+        fr:
+          country: ''
+          enabled: true
+          language: fr
