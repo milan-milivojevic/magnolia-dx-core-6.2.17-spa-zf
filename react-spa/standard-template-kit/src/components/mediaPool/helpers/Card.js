@@ -121,7 +121,7 @@ const Card = ({ fields, buttonProps, onToggleSelect, isSelected, usePublicAuth =
   /* Direct download function */
   const downloadFile = async () => {
 
-    const data = await downloadFileDirect(assetId, selectedOption, download_version, language, null);
+    const data = await downloadFileDirect(assetId, selectedOption, download_version, language, null, usePublicAuth);
 
     if (typeof data[0].download_url !== 'undefined') {          
       if (isMobileDevice()) {
@@ -161,7 +161,13 @@ const Card = ({ fields, buttonProps, onToggleSelect, isSelected, usePublicAuth =
   // }
 
   const toggleDownloadModal = () => {
-    setShowDownloadModal(!showDownloadModal);    
+    if (usePublicAuth) {
+      downloadFile();
+      setIsImgHovered(false);
+      showAlertAfterDownload();
+      return;
+    }
+    setShowDownloadModal(!showDownloadModal);
   }
 
   const closeDownloadModal = () => {
@@ -215,7 +221,7 @@ const Card = ({ fields, buttonProps, onToggleSelect, isSelected, usePublicAuth =
   };
 
   /* Copy link to asset - External (MP Module) */
-  const exernalLinkPath = `${baseURL}${apiBase}/web/mp/asset-details?assetId=${assetId}&skipHeader=true`;
+  const exernalLinkPath = `${baseURL}/web/mp/asset-details?assetId=${assetId}&skipHeader=true`;
 
   const copyExternalLink = () => {
     navigator.clipboard.writeText(exernalLinkPath)

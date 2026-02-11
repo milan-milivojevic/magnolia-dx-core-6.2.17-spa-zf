@@ -55,7 +55,7 @@ const DetailsModal = (props) => {
 
   const downloadFile = async () => {
 
-    const data = await downloadFileDirect(assetId, selectedOption, download_version, language, null);
+    const data = await downloadFileDirect(assetId, selectedOption, download_version, language, null, usePublicAuth);
 
     if (typeof data[0].download_url !== 'undefined') {
 
@@ -78,10 +78,25 @@ const DetailsModal = (props) => {
     a.click();
   };
 
-  const linkPath = `${baseURL}${apiBase}/Home/Search-Pages/MP-Search?query=M-${assetId}`;
+  /* Copy link to asset - Internal (MP Search) */
+  const internalLinkPath = `${baseURL}${apiBase}/Home/Search-Pages/MP-Search?query=${assetId}`;
 
-  const copyLink = () => {
-    navigator.clipboard.writeText(linkPath)
+  const copyInternalLink = () => {
+    navigator.clipboard.writeText(internalLinkPath)
+      .then(() => {
+        setShowAlert(true);
+        setMesage("Link Copied");
+        setTimeout(() => {
+          setShowAlert(false);
+        }, 2500);
+      })
+  };
+
+  /* Copy link to asset - External (MP Module) */
+  const exernalLinkPath = `${baseURL}/web/mp/asset-details?assetId=${assetId}&skipHeader=true`;
+
+  const copyExternalLink = () => {
+    navigator.clipboard.writeText(exernalLinkPath)
       .then(() => {
         setShowAlert(true);
         setMesage("Link Copied");
@@ -112,6 +127,10 @@ const DetailsModal = (props) => {
   // }
 
   const toggleDownloadModal = () => {
+    if (usePublicAuth) {
+      downloadFile();
+      return;
+    }
     setShowDownloadModal(!showDownloadModal);
   }
   const closeDownloadModal = () => {
@@ -254,7 +273,7 @@ const DetailsModal = (props) => {
               <div className='fileFormatActions'>
                 <div className={`assetActionButtons show`}>
                   <button onClick={toggleDownloadModal}><FiDownload /></button>
-                  <button onClick={copyLink}><FiLink /></button>
+                  <button onClick={copyExternalLink}><FiLink /></button>
                   <button onClick={toggleEmailModal}><FiMail /></button>
                 </div>
                 <div className='fileFormat'>{fileFormat}</div>
