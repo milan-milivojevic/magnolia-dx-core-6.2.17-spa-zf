@@ -121,7 +121,7 @@ const Card = ({ fields, buttonProps, onToggleSelect, isSelected, usePublicAuth =
   /* Direct download function */
   const downloadFile = async () => {
 
-    const data = await downloadFileDirect(assetId, selectedOption, download_version, language, null, usePublicAuth);
+    const data = await downloadFileDirect(assetId, selectedOption, download_version, language, null);
 
     if (typeof data[0].download_url !== 'undefined') {          
       if (isMobileDevice()) {
@@ -161,13 +161,7 @@ const Card = ({ fields, buttonProps, onToggleSelect, isSelected, usePublicAuth =
   // }
 
   const toggleDownloadModal = () => {
-    if (usePublicAuth) {
-      downloadFile();
-      setIsImgHovered(false);
-      showAlertAfterDownload();
-      return;
-    }
-    setShowDownloadModal(!showDownloadModal);
+    setShowDownloadModal(!showDownloadModal);    
   }
 
   const closeDownloadModal = () => {

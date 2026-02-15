@@ -55,7 +55,7 @@ const DetailsModal = (props) => {
 
   const downloadFile = async () => {
 
-    const data = await downloadFileDirect(assetId, selectedOption, download_version, language, null, usePublicAuth);
+    const data = await downloadFileDirect(assetId, selectedOption, download_version, language, null);
 
     if (typeof data[0].download_url !== 'undefined') {
 
@@ -127,10 +127,6 @@ const DetailsModal = (props) => {
   // }
 
   const toggleDownloadModal = () => {
-    if (usePublicAuth) {
-      downloadFile();
-      return;
-    }
     setShowDownloadModal(!showDownloadModal);
   }
   const closeDownloadModal = () => {
