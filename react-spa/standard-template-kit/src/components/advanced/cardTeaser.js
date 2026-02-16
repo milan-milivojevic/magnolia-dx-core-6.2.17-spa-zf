@@ -277,7 +277,7 @@ function CardTeaser ({
           setAclValue(response); 
         })
         .catch((error) => {
-          console.error("Greška prilikom izvršavanja publicAclCheck:", error);
+          console.error("Error executing publicAclCheck:", error);
           setAclValue(false);
         });
       return;
@@ -288,7 +288,7 @@ function CardTeaser ({
         setAclValue(response); 
       })
       .catch((error) => {
-        console.error("Greška prilikom izvršavanja aclCheck:", error);
+        console.error("Error executing aclCheck:", error);
         setAclValue(false);
       });
   }, [basicAclCheck, allowedGroups, deniedGroups, hideComponent, isUserLogged, isUserLoaded, editMode]);
