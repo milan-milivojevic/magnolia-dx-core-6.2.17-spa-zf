@@ -1,5 +1,4 @@
 import React from 'react'
-// import second from 'style'
 import styled from "styled-components"
 
 const CardStyle = styled.div`

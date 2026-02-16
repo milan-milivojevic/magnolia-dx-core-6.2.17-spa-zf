@@ -42,7 +42,6 @@ export default function IndeterminateCheckbox() {
              }
           ]
         },
-        // Add more children for Parent 1
       ],
     },
     {
@@ -67,7 +66,6 @@ export default function IndeterminateCheckbox() {
       label: "Parent 3",
       value: "Parent 3",
     }
-    // Add more parents here
   ];
 
   const [parents, setParents] = React.useState(initialParents);
@@ -290,7 +288,6 @@ export default function IndeterminateCheckbox() {
     clearAll();
     setIsFilterOpen(false);
   };
-
 
   return (
     <div>

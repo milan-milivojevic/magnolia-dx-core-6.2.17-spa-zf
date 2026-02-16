@@ -114,7 +114,6 @@ function TextLink ({
   noStyles,
   }) {
 
-    
   const baseUrl = process.env.REACT_APP_MGNL_HOST;
   const apiBase = getAPIBase();
   const isPublic = isPublicInstance();
@@ -157,7 +156,7 @@ function TextLink ({
   const HeadlineLevel = headlineLevel || configProps?.headlineLevel || "h1";  
   const downloadLink = download ? download['@link'] : baseUrl;  
   const externalLink = isPublic ? external?.replace("cmsAuthor", "cmsPublic") : external?.replace("cmsPublic", "cmsAuthor");
-  const href = linkType === "page" ? (getRouterBasename() + page)?.replace("//", "/")?.replace("Home/Home", "Home") : linkType === "external" ? externalLink : downloadLink;
+  const href = linkType === "page" ? (getRouterBasename() + page)?.replace("
 
   const defBgColor = wrapperDefaultBackColor || configProps?.wrapperDefaultBackColor || null;
   const hovBgColor = wrapperHoverBackColor || configProps?.wrapperHoverBackColor || defBgColor;

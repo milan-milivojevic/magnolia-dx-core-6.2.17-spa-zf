@@ -88,7 +88,6 @@ function CarouselDividedConfig ({
   const rightImage = activeRightImages[currentIndex];
   let urlRightImage = rightImage ? rightImage['@link'] : require('../../../images/placeholderImage.jpg');
 
-
   const carouselStyles = {
     position: "relative",
     marginTop: carouselMarginTop || null,

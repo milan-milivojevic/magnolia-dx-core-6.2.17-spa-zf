@@ -42,7 +42,6 @@ export default function IndeterminateCheckbox() {
              }
           ]
         },
-        // Add more children for Parent 1
       ],
     },
     {
@@ -67,14 +66,13 @@ export default function IndeterminateCheckbox() {
       label: "Radojlo 3",
       value: "Radojlo 3",
     }
-    // Add more parents here
   ];
 
   const [parents, setParents] = React.useState(initialParents);
   const [isFilterOpen, setIsFilterOpen] = React.useState(false);
   const [selectedValues, setSelectedValues] = React.useState([]);
 
-  const [filterQuery, setFilterQuery] = React.useState(""); // Stanje za pretragu
+  const [filterQuery, setFilterQuery] = React.useState("");
   
   const handleSearchFilter = (e) => {
     setFilterQuery(e.target.value);    
@@ -128,11 +126,10 @@ export default function IndeterminateCheckbox() {
         
         return parentMatch ? { ...parent, children: childrenMatch, isParentOpen: parentMatch, isChecked: false } : null;
       })
-      .filter(Boolean);  // Uklanja sve null vrednosti
+      .filter(Boolean);
   };
   
   const filteredParents = filterParents();
-  
   
   console.log("initialParents");
   console.log(initialParents);
@@ -360,7 +357,6 @@ export default function IndeterminateCheckbox() {
     setIsFilterOpen(false);
   };
 
-
   return (
     <div>
         <Button variant="outlined" onClick={toggleFilter}>
@@ -381,7 +377,6 @@ export default function IndeterminateCheckbox() {
                 key={parents.map(c => c.isChecked + c.id).join('-')}
           >
             
-
             {parents.map(parent => (
                 <div key={parent.id}>
                   <div style={{ display: 'flex', alignItems: 'center' }}>

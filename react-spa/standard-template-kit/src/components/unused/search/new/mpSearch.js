@@ -44,7 +44,6 @@ function MpSearch ({
 }) {
   
   const searchParams = new URLSearchParams(window.location.search);
-  // const urlQuery = searchParams.get('q');
   const [query, setQuery] = useState("");
   
   const [products, setProducts] = useState([]);
@@ -87,7 +86,6 @@ function MpSearch ({
         observer.disconnect()
       }
     }
-  // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products])
 
   async function fetchMoreItems() {
@@ -98,7 +96,6 @@ function MpSearch ({
     if (data.length == 0) {
       setHasMore(false)
     } else {
-      // const res = await flexFilter(data, categories);
 
       setProducts(prevProducts => [...prevProducts, ...data]);
       setPage(prevPage => prevPage+1)
@@ -109,23 +106,20 @@ function MpSearch ({
     fetchAssets(page, sort[0], sort[1], 0).then(res => {
       setProducts([]);
       setProducts(res);
-      // reset offset
       setOffset(0)
     })
   }, [sort]);
   
-
   const fetchAssets = async (page, sortingType, isAsc, offset) => {
     const res = await postSearchToken(page, sortingType, isAsc, offset);
     console.log(res);
-    // const res = JSON.parse(postSearchToken(page, sortingType, isAsc, offset))
     return res.items;
   };
 
   return (
     <div className='mpSearchComponent'>
-      {/* <Filters handleFilters={handleFilters} /> */}
-      {/* <p style={{ textAlign: 'center' }}>{JSON.stringify(categories)}</p> */}
+      {}
+      {}
       <div style={{ margin: '0 auto', width: '100%' }}>
         <label htmlFor="sort">Sort by: 
           <select name="sort" id="sort" onChange={(e) => {

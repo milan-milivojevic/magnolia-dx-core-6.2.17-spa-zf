@@ -148,7 +148,7 @@ function ImageTeaserConfig ({
   
   const HeadlineLevel = headlineLevel || "h1";
   const downloadLink = download ? baseUrl + download['@link'] : baseUrl;  
-  const href = linkType === "page" ? (getRouterBasename() + page).replace("//", "/").replace("Home/Home", "Home") : linkType === "external" ? external : downloadLink;
+  const href = linkType === "page" ? (getRouterBasename() + page).replace("
 
   const cursorPointer = clickableComponent === "true" ? "cursorPointer" : null;
   

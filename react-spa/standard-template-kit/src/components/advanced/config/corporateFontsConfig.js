@@ -95,7 +95,7 @@ function CorporateFontsConfig ({
   }) {
 
   const HeadlineLevel = headlineLevel !== undefined ? headlineLevel : "h1";
-  const href = linkType === "page" ? (getRouterBasename() + page).replace("//", "/").replace("Home/Home", "Home") : external;
+  const href = linkType === "page" ? (getRouterBasename() + page).replace("
 
   return (
     <div className='text_editMode'>
@@ -209,7 +209,5 @@ function CorporateFontsConfig ({
     </div>
   )
 }
-
-
 
 export default CorporateFontsConfig;

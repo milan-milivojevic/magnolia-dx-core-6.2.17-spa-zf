@@ -234,7 +234,6 @@ function Navigation(props, ref) {
         return filtered;
       };
 
-
       let lvl1Items = data["@nodes"].map((nodeName) => {
         return data[nodeName];
       });

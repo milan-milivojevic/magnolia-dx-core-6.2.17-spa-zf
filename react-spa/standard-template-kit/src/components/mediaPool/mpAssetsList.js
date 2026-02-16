@@ -76,5 +76,4 @@ function MPAssetsList ({
   );
 }
 
-
 export default MPAssetsList;

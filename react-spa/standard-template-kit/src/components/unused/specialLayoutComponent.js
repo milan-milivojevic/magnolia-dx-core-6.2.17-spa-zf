@@ -198,12 +198,11 @@ function SpecialLayoutComponent ({
       });
   }, [linkStyleName, linkNoStyles, configProps?.linkStyleName, apiBase, restPath, nodeName]);
 
-
   const linkExist = page || external || download || null;
 
   const HeadlineLevel = headlineLevel || configProps?.headlineLevel || "h1";  
   const downloadLink = download ? baseUrl + download['@link'] : baseUrl;  
-  const href = linkType === "page" ? (getRouterBasename() + page).replace("//", "/").replace("Home/Home", "Home") : linkType === "external" ? external : downloadLink;
+  const href = linkType === "page" ? (getRouterBasename() + page).replace("
 
   const layouts = layout || configProps?.layout || "layout1";
 
@@ -221,7 +220,6 @@ function SpecialLayoutComponent ({
 
   const defLinkBorderColor = linkBorderColor || configProps?.linkBorderColor || linkConfigProps?.linkBorderColor || null;
   const hovLinkBorderColor = linkBorderHoverColor || configProps?.linkBorderHoverColor || linkConfigProps?.linkBorderHoverColor || defLinkBorderColor;
-
 
   const imgDefBgColor = imageDefaultBackColor || configProps?.imageDefaultBackColor || imageConfigProps?.imageDefaultBackColor || null;
   const imgHovBgColor = imageHoverBackColor || configProps?.imageHoverBackColor || imageConfigProps?.imageHoverBackColor || null;

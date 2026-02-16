@@ -117,7 +117,6 @@ const publicAclCheck = async (allowedGroups, deniedGroups, hideComponent) => {
   }
 };
 
-
 function CardTeaser ({
   headline,   
   headlineLevel,
@@ -337,7 +336,7 @@ function CardTeaser ({
 
   const HeadlineLevel = headlineLevel || configProps?.headlineLevel || "h1";  
   const downloadLink = download ? download['@link'] : baseUrl;  
-  const href = linkType === "page" ? (getRouterBasename() + page).replace("//", "/").replace("Home/Home", "Home") : linkType === "external" ? external : downloadLink;
+  const href = linkType === "page" ? (getRouterBasename() + page).replace("
 
   const cursorPointer = clickableImage === "true" ? "cursorPointer" : configProps?.clickableImage === "true" ? "cursorPointer" : null;
   const showBorders = bordersToShow || configProps?.bordersToShow || null;

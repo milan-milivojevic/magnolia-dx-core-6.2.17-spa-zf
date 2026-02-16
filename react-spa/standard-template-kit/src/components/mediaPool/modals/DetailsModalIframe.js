@@ -2,7 +2,6 @@ import React, { useRef } from 'react';
 import { AiOutlineClose } from "react-icons/ai";
 import Modal from 'react-modal';
 
-
 const DetailsModal = ( props ) => {
 
   const {

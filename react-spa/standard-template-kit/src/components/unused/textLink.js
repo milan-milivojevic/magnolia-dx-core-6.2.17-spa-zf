@@ -84,7 +84,6 @@ function TextLink ({
     linkPositionLayout2
   }) {
 
-    
   const [configProps, setconfigProps] = useState();
 
   useEffect(() => {
@@ -135,7 +134,6 @@ function TextLink ({
       });
   }, [linkStyleName, linkNoStyles, configProps?.linkStyleName]);
 
-
   const defBgColor = wrapperDefaultBackColor || configProps?.wrapperDefaultBackColor || "transparent";
   const hovBgColor = wrapperHoverBackColor || configProps?.wrapperHoverBackColor || "transparent";
 
@@ -163,7 +161,7 @@ function TextLink ({
 
   const HeadlineLevel = headlineLevel || configProps?.headlineLevel || textConfigProps?.headlineLevel || "h1";  
   const downloadLink = download ? "http://localhost:8080" + download['@link'] : "http://localhost:8080";  
-  const href = linkType === "page" ? (getRouterBasename() + page).replace("//", "/").replace("Home/Home", "Home") : linkType === "external" ? external : downloadLink;
+  const href = linkType === "page" ? (getRouterBasename() + page).replace("
 
   const layouts = layout || configProps?.layout || "layout1";
   const linkRightLayouts = layout || configProps?.layout !== "layout1" ? linkRightLayout || configProps?.linkRightLayout : "auto";

@@ -3,7 +3,6 @@ import Modal from 'react-modal';
 import { downloadFileDirect } from '../../../api/searchService';
 import { AiOutlineClose } from "react-icons/ai";
 
-
 const EmailModal = ({ assetId, isOpen, onClose, closeModal }) => {
 
   const selectedOption = 5;
@@ -80,18 +79,6 @@ const EmailModal = ({ assetId, isOpen, onClose, closeModal }) => {
 
       console.log(config);
 
-      // fetch('/bmMagnoliaMail/sendMailServlet', {
-      //   method: 'GET',
-      //   params: config.params,
-      // })
-      // .then((response) => response.json())
-      // .then((responseData) => {
-      //   setProgressMessage(responseData.msg);
-      // })
-      // .catch((error) => {
-      //   console.log('ERROR: ', error);
-      // });
-
       onClose();
     }
   }
@@ -161,16 +148,7 @@ const EmailModal = ({ assetId, isOpen, onClose, closeModal }) => {
               onChange={(e) => setMessage(e.target.value)}
             />
           </div>
-          {/* <div className="emailModalInput">
-            <label>
-              <input
-                type="checkbox"
-                checked={copyToMyself}
-                onChange={toggleCopyToMyself}
-              />
-              Copy to Myself
-            </label>
-          </div> */}
+          {}
           <div className="sendMailButton">
             <button type="submit">Send Mail</button>  
           </div>  

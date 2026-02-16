@@ -37,40 +37,31 @@ function TemplatesCarousel({
   
   const settings = {
     
-    slidesToShow: slidesToShow || 5, // 
+    slidesToShow: slidesToShow || 5,
     slidesToScroll: slidesToScroll || 1,
     speed: 500,
     infinite: false,
-    // autoplay: autoplay === "false" ? false : true,
-    // infinite: infinite === "false" ? false : true,
-    // dots: showDots === "false" ? false : true,
     responsive: [
       {
         breakpoint: 768,
         settings: {
-          slidesToShow: 1, // Na manjim ekranima prikazuje samo 1 aset istovremeno
+          slidesToShow: 1,
         },
       },
     ],
   };
 
-  // Pravite prazan niz za skladištenje assetId-eva
   const assetIdsArray = [];
 
-  // Iterirajte kroz svoje objekte koristeći for-in petlju
   for (const key in assetsIds) {
-    // Provjerite da li je svojstvo počinje sa "assetIds"
     if (key.startsWith('assetsIds')) {
-      // Dodajte assetId u niz
       assetIdsArray.push(assetsIds[key].assetId);
     }
   }
 
-  // assetIdsArray će sadržavati sve assetId-ove iz objekta
   console.log("assetIdsArray");
   console.log(assetIdsArray);
 
-  
   const limit = 20 - assetIdsArray?.length;
   const spitedSortOrder = sortOrder?.split(',') || "lastUpdatedTime, false";
   const sortingType = spitedSortOrder[0];

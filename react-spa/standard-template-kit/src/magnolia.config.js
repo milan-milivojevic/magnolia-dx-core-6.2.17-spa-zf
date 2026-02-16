@@ -33,7 +33,6 @@ import W2PDocumentsByStatus from "./components/w2p/w2pDocumentsByStatus";
 import W2PDocumentsSearch from "./components/search/w2pDocumentsSearch";
 import W2PSearch from "./components/search/w2pSearch";
 
-
 import PagesConfig from "./components/mainConfig/pagesConfig";
 import HeaderConfig from "./components/mainConfig/headerConfig";
 import TopNavConfig from "./components/mainConfig/topNavConfig";
@@ -120,7 +119,6 @@ import FooterSection from "./components/sections/footerSection";
 import InnerSection from "./components/sections/innerSection";
 import MainSection from "./components/sections/mainSection";
 
-
 const config = {
     'componentMappings':{
         "standard-template-kit:pages/config/main": MainPage,
@@ -156,7 +154,6 @@ const config = {
         "standard-template-kit:components/w2p/w2pDocumentsByStatus": W2PDocumentsByStatus,
         "standard-template-kit:components/search/w2pDocumentsSearch": W2PDocumentsSearch,
         "standard-template-kit:components/search/w2pTemplatesSearch": W2PSearch,
-
 
         "standard-template-kit:components/mainConfig/pagesConfig": PagesConfig,
         "standard-template-kit:components/mainConfig/headerConfig": HeaderConfig,

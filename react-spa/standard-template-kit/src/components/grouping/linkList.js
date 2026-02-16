@@ -98,5 +98,4 @@ function LinkList ({
   );
 }
 
-
 export default LinkList;

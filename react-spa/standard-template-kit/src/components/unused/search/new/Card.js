@@ -26,7 +26,7 @@ const Card = ({ fields: { title, description, keywords, uploadDate, lastUpdatedT
   return (
     <CardStyle>
       <div></div>
-      {/* <img src={src} alt={title} /> */}
+      {}
       <h2>{title}</h2>
       {description && <p>DESC: {description}</p>}
       <p>Asset ID: {id}</p>

@@ -69,7 +69,6 @@ function MpSearch ({
     let searchParams = new URLSearchParams(window.location.search);  
     const encryptedData = searchParams.get('data');
     
-
     let decryptedData = undefined;
     if (encryptedData) {
       decryptedData = decryptData(encryptedData);
@@ -147,7 +146,6 @@ function MpSearch ({
     });
   }, [selectedCategories, selectedSuffixes, selectedKeywords, selectedVdbs]);
 
-  // Function to update selectedCategories state
   const updateSelectedCategories = (selectedValues) => {
     setSelectedCategories(selectedValues);
   };
@@ -190,7 +188,6 @@ function MpSearch ({
     setOffset(0);
     const currentOffset = 0;
     
-
     elasticSearch(sortingTypeRaw, isAscRaw, currentOffset, limit, query, selectedCategories, selectedSuffixes, selectedKeywords, selectedVdbs).then((data) => {      
       setProducts([]);
       setProducts(data);      
@@ -209,7 +206,6 @@ function MpSearch ({
 
     return data.items;    
   };    
-
 
   const loadMoreAssets = () => {
     const currentOffset = offset + 25;
@@ -272,7 +268,7 @@ function MpSearch ({
         <div className="searchFilters">
           <CategoriesFilter onUpdateSelectedCategories={updateSelectedCategories} selectedCategories={selectedCategories}/>
           <FileInfoFilter onUpdateSelectedSuffixes={updateSelectedSuffixes} selectedSuffixes={selectedSuffixes}/>
-          {/* <VdbFilter onUpdateSelectedVdbs={updateSelectedVdbs} selectedVdbs={selectedVdbs}/> */}
+          {}
           <KeywordsFilter onUpdateSelectedKeywords={updateSelectedKeywords} selectedKeywords={selectedKeywords}/>
         </div>
       </div>      

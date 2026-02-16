@@ -18,8 +18,6 @@ function MpSearch ({
   detailsButton,
   copyLinkButton,
 }) {
-  // const searchParams = new URLSearchParams(window.location.search);
-  // const urlQuery = searchParams.get('q');
   const elementRef = useRef(null);
 
   const [query, setQuery] = useState(null);
@@ -32,9 +30,8 @@ function MpSearch ({
   const [offset, setOffset] = useState(0);
   const [matches, setMatches] = useState(0);
 
-  const [selectedCategories, setSelectedCategories] = useState([]); // State in the parent component
+  const [selectedCategories, setSelectedCategories] = useState([]);
 
-  // Function to update selectedCategories state
   const updateSelectedCategories = (newSelectedCategories) => {
     setSelectedCategories(newSelectedCategories);
   };
@@ -60,7 +57,6 @@ function MpSearch ({
     console.log("[mpSearch elasticSearch data.totalHits]");
     console.log(data.totalHits);
     console.log("----------------------");
-    // const res = JSON.parse(postSearchToken(page, sortingType, isAsc, offset))
     setMatches(data.totalHits);
     return data.items;
   };
@@ -119,7 +115,6 @@ function MpSearch ({
         observer.disconnect();
       }
     };
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [products]);
 
   const changeSorting = (e) => {
@@ -141,7 +136,6 @@ function MpSearch ({
     elasticSearch(sortingTypeRaw, isAscRaw, 0).then((data) => {
       setProducts([]);
       setProducts(data);
-      // reset offset
       setOffset(0);
     });
   };
@@ -172,8 +166,8 @@ function MpSearch ({
 
   return (
     <div className="mpSearchComponent">
-      {/* <Filters handleFilters={handleFilters} /> */}
-      {/* <p style={{ textAlign: 'center' }}>{JSON.stringify(categories)}</p> */}
+      {}
+      {}
       <div className="flexColumn staticSearch">
         <div className="flex headerSearch">
           <input

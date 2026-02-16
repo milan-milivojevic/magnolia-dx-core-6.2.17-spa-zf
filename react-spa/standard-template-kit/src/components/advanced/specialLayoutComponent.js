@@ -8,7 +8,6 @@ import { ReactComponent as ArrowsIcon } from '../../images/home/ArrowsIcon.svg';
 import { ReactComponent as DownloadIcon } from '../../images/home/DownloadIcon.svg';
 import { isPublicInstance } from '../../helpers/AppHelpers';
 
-
 const Wrapper = styled.div`
   .specialLayoutComponent:hover {
     background-color: ${(props) => props.hovBgColor && props.hovBgColor + "!important"};
@@ -196,13 +195,12 @@ function SpecialLayoutComponent ({
       });
   }, [linkStyleName, linkNoStyles, configProps?.linkStyleName, apiBase, restPath, nodeName]);
 
-
   const linkExist = page || external || download || null;
 
   const HeadlineLevel = headlineLevel || configProps?.headlineLevel || "h1";  
   const downloadLink = download ? download['@link'] : baseUrl;  
   const externalLink = isPublic ? external?.replace("cmsAuthor", "cmsPublic") : external?.replace("cmsPublic", "cmsAuthor");
-  const href = linkType === "page" ? (getRouterBasename() + page)?.replace("//", "/")?.replace("Home/Home", "Home") : linkType === "external" ? externalLink : downloadLink;
+  const href = linkType === "page" ? (getRouterBasename() + page)?.replace("
 
   const layouts = layout || configProps?.layout || "layout1";
 
@@ -220,7 +218,6 @@ function SpecialLayoutComponent ({
 
   const defLinkBorderColor = linkBorderColor || configProps?.linkBorderColor || linkConfigProps?.linkBorderColor || null;
   const hovLinkBorderColor = linkBorderHoverColor || configProps?.linkBorderHoverColor || linkConfigProps?.linkBorderHoverColor || defLinkBorderColor;
-
 
   const imgDefBgColor = imageDefaultBackColor || configProps?.imageDefaultBackColor || null;
   const imgHovBgColor = imageHoverBackColor || configProps?.imageHoverBackColor || null;

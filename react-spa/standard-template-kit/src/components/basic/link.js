@@ -98,7 +98,7 @@ function Link({
   const downloadLink = download ? download['@link'] : baseUrl;  
   const externalLink = isPublic ? external?.replace("cmsAuthor", "cmsPublic") : external?.replace("cmsPublic", "cmsAuthor");
 
-  const href = linkType === "page" ? (getRouterBasename() + page).replace("//", "/").replace("Home/Home", "Home") : linkType === "external" ? externalLink : downloadLink;
+  const href = linkType === "page" ? (getRouterBasename() + page).replace("
 
   const linkIcons = linkIcon || configProps?.linkIcon || "";
   

@@ -1,8 +1,3 @@
-// Filter2.js (Asset Type)
-// ✅ Endpoint za stablo: GET /rest/mp/v1.0/asset-attributes/450/trees
-// ✅ COUNT: POST /rest/mp/v1.1/search sa aggregates.customAttribute_450 (type "object"/"object_set" nije bitno za klijent; čitamo aggs.id.subGroups)
-// ✅ U COUNT payload ubaceni svi ostali filteri (bez samog Filter2)
-// ✅ ZAHREV: Ne sortirati po abecedi – poštovati redosled iz response-a (uklanjamo poziv sortItems)
 
 import React, { useEffect, useState } from "react";
 import Checkbox from "@mui/material/Checkbox";
@@ -15,7 +10,6 @@ import filter2Payload from "./payloads/filter2Payload.json";
 export default function Filter2({
   onUpdateSelectedFilter2,
   selectedFilter2 = [],
-  // props iz MpSearch
   query = "",
   sortingType,
   isAsc,
@@ -35,13 +29,11 @@ export default function Filter2({
   const baseUrl = process.env.REACT_APP_MGNL_HOST;
 
   const injectActiveFilters = (payload) => {
-    // query
     try {
       payload.criteria.subs[0].subs[0].value = query ?? "";
       payload.criteria.subs[0].subs[1].value = query ?? "";
     } catch {}
 
-    // Themes
     if (selectedCategories?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -51,7 +43,6 @@ export default function Filter2({
       });
     }
 
-    // FileInfo
     if (selectedSuffixes?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -60,7 +51,6 @@ export default function Filter2({
       });
     }
 
-    // Keywords
     if (selectedKeywords?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -70,7 +60,6 @@ export default function Filter2({
       });
     }
 
-    // VDB
     if (selectedVdbs?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -80,7 +69,6 @@ export default function Filter2({
       });
     }
 
-    // Filter1 i Filter3 (bez Filter2)
     if (selectedFilter1?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -102,7 +90,6 @@ export default function Filter2({
   useEffect(() => {
     (async () => {
       try {
-        // 1) COUNT customAttribute_450
         const countPayload = JSON.parse(JSON.stringify(filter2Payload));
         injectActiveFilters(countPayload);
 
@@ -120,7 +107,6 @@ export default function Filter2({
         const countsMap = new Map();
         groups.forEach((g) => countsMap.set(+g.group, g.count));
 
-        // 2) Stablo (Asset Type)
         const treeRes = await fetch(`${baseUrl}/rest/mp/v1.0/asset-attributes/450/trees`);
         const treeData = await treeRes.json();
 
@@ -367,7 +353,6 @@ export default function Filter2({
     setIsFilterOpen(false);
   };
 
-  // filter za prikaz
   const filterTree = (items, q) => {
     if (!q) return items;
     const term = q.toLowerCase();

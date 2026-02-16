@@ -39,7 +39,6 @@ function W2PDocumentsSearch ({
   const [view, setView] = useState(defaultView || "grid");
   const [size, setSize] = useState(perPage ? (Number(perPage) + 6) : 29);
 
-
   const [selectedDetails, setSelectedDetails] = useState();
   const [selectedTemplateType, setSelectedTemplateType] = useState();
   const [selectedDocumentStatus, setSelectedDocumentStatus] = useState("in-work");  
@@ -91,7 +90,6 @@ function W2PDocumentsSearch ({
     setOffset(0);
     const currentOffset = 0;
     
-
     documentsSearch(query, sortTypeRaw, sortDirectionRaw, size, currentOffset, selectedTemplateType, selectedDetails, selectedDocumentStatus).then((data) => {      
       setProducts([]);
       setProducts(data);      

@@ -15,4 +15,3 @@ isPublic ? rightImage['@link'].replace("cmsAuthor", "cmsPublic") : rightImage['@
 isPublic ? download1['@link'].replace("cmsAuthor", "cmsPublic") : download1['@link']
 isPublic ? download2['@link'].replace("cmsAuthor", "cmsPublic") : download2['@link']
 isPublic ? download3['@link'].replace("cmsAuthor", "cmsPublic") : download3['@link']
-

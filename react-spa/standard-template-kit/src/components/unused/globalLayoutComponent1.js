@@ -103,7 +103,6 @@ function GlobalLayoutComponent1 ({
     linkRightPosition    
   }) {
 
-    
   const [configProps, setconfigProps] = useState();
 
   useEffect(() => {
@@ -154,7 +153,6 @@ function GlobalLayoutComponent1 ({
       });
   }, [linkStyleName, linkNoStyles, configProps?.linkStyleName]);
 
-
   const defBgColor = wrapperDefaultBackColor || configProps?.wrapperDefaultBackColor || "transparent";
   const hovBgColor = wrapperHoverBackColor || configProps?.wrapperHoverBackColor || "transparent";
 
@@ -189,7 +187,7 @@ function GlobalLayoutComponent1 ({
 
   const HeadlineLevel = headlineLevel || configProps?.headlineLevel || "h1";  
   const download = image ? "http://localhost:8080" + image['@link'] : "http://localhost:8080";  
-  const href = linkType === "page" ? (getRouterBasename() + page).replace("//", "/").replace("Home/Home", "Home") : linkType === "external" ? external : downloadLink;
+  const href = linkType === "page" ? (getRouterBasename() + page).replace("
 
   const validOddLayouts = ["layout1", "layout3", "layout5"];
   const validEvenLayouts = ["layout2", "layout4"];
@@ -294,7 +292,6 @@ function GlobalLayoutComponent1 ({
     paddingLeft: imagePaddingLeft || imageConfigProps?.imagePaddingLeft || null,
     backgroundColor: imgBgColor
   }
-
 
   return (
     <div className='glc_editMode'>

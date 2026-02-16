@@ -26,7 +26,6 @@ function App() {
   const isPagesApp = window.location.search.includes("mgnlPreview");
   const editMode = isPagesApp ? "editMode" : "";
   
-  /* Rendering Languages */
   function renderLanguages() {
     const currentLanguage = getCurrentLanguage();    
     return (
@@ -46,7 +45,6 @@ function App() {
 
   const [query, setQuery] = useState("");  
 
-  /* Setting top position and min-height of Page Content */
   const headerRef = React.useRef(null);  
   const topNavRef = React.useRef(null); 
   const pageRef = React.useRef(null);
@@ -62,7 +60,6 @@ function App() {
     }, 150)
   }, []);
 
-  /* Getting props from headerConfig for setting logo and logo link */
   const baseUrl = process.env.REACT_APP_MGNL_HOST; 
   const apiBase = getAPIBase();
   const restPath = process.env.REACT_APP_MGNL_API_PAGES;
@@ -85,7 +82,6 @@ function App() {
     setShowLogout(configProps?.showLogout)
   }, [configProps?.showLogout]);
 
-  /* Setting pathname */
   const [pathname, setPathname] = useState(window.location.pathname);
 
   useEffect(() => {
@@ -102,10 +98,8 @@ function App() {
     };
   }, []);
 
-  /* Questionable part of the code because of querySelector */
   setTimeout(() => {
 
-    /* Adding active class on active nav item elemets */
     const links = document.querySelectorAll('.menu-item > button > a');
     const leftLinks = document.querySelectorAll('.leftHandNav .menu-item > button > a');
     function setActiveLink(link) {
@@ -127,7 +121,6 @@ function App() {
       setActiveLink(leftLink);
     }
 
-    /* Setting all chevrons in the same place */
     const navItems = document.querySelectorAll('.leftHandNav ul li a');
     console.log(navItems)
     let longestNavItemWidth = 0;
@@ -148,7 +141,7 @@ function App() {
 
   const handleClick = () => {
 
-    const href = (getRouterBasename() + `/Search-Pages/Static-Content-Search?q=${query}`).replace("//", "/");
+    const href = (getRouterBasename() + `/Search-Pages/Static-Content-Search?q=${query}`).replace("
     window.history.pushState({}, "", href);
     events.emit("popstate");
   }
@@ -166,7 +159,7 @@ function App() {
         <div className='header'>
           {configProps?.logo &&
             <div className='logo'>
-              <a href={(getRouterBasename() + configProps?.logoPageLink).replace("//", "/").replace("Home/Home", "Home")}
+              <a href={(getRouterBasename() + configProps?.logoPageLink).replace("
                 onClick={(e) => {
                   e.preventDefault();
                   window.history.pushState({}, "", e.currentTarget.href);

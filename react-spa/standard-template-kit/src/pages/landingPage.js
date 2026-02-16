@@ -15,7 +15,6 @@ function RedirectPage ({
   window.history.pushState({}, "", href2);
   events.emit("popstate");
 
-
   return (
     <>
       {editMode ? (

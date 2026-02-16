@@ -147,10 +147,9 @@ function TextLinkConfig ({
   const defLinkBgColor = linkDefaultBackColor || linkConfigProps?.linkDefaultBackColor || null;
   const hovLinkBgColor = linkHoverBackColor || linkConfigProps?.linkHoverBackColor || defLinkBgColor || null;
   
-
   const HeadlineLevel = headlineLevel || textConfigProps?.headlineLevel || "h1";
   const downloadLink = download ? linkBase + download['@link'] : linkBase;  
-  const href = linkType === "page" ? (getRouterBasename() + page).replace("//", "/").replace("Home/Home", "Home") : linkType === "external" ? external : downloadLink;
+  const href = linkType === "page" ? (getRouterBasename() + page).replace("
 
   const layouts = layout || "layout1";
   const linkRightLayouts = layout !== "layout1" ? linkRightLayout : "auto";

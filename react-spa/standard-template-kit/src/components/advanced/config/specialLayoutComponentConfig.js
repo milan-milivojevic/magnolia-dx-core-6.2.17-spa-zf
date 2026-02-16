@@ -180,12 +180,11 @@ function SpecialLayoutComponentConfig ({
       });
   }, [linkStyleName, linkNoStyles, apiBase, restPath, nodeName]);
 
-
   const linkExist = page || external || download || null;
 
   const HeadlineLevel = headlineLevel || "h1";  
   const downloadLink = download ? download['@link'] : baseUrl; 
-  const href = linkType === "page" ? (getRouterBasename() + page).replace("//", "/").replace("Home/Home", "Home") : linkType === "external" ? external : downloadLink;
+  const href = linkType === "page" ? (getRouterBasename() + page).replace("
 
   const layouts = layout || "layout1";
 

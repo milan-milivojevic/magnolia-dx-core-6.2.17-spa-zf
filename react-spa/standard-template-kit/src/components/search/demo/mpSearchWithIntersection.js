@@ -50,7 +50,6 @@ function MpSearch ({
     console.log("useEffect");
   }, []);   
 
-  // Function to update selectedCategories state
   const updateSelectedCategories = (selectedValues) => {
     setSelectedCategories(selectedValues);
   };
@@ -113,7 +112,6 @@ function MpSearch ({
     setOffset(0);
     const currentOffset = 0;
     
-
     elasticSearch(sortingTypeRaw, isAscRaw, currentOffset, query).then((data) => {      
       setProducts([]);
       setProducts(data);      
@@ -152,7 +150,6 @@ function MpSearch ({
     return data.items;    
   };    
 
-
   const loadMoreAssets = () => {
     const currentOffset = offset + 25;
     console.log(currentOffset);
@@ -161,37 +158,6 @@ function MpSearch ({
     fetchMoreAssets(sortingType, isAsc, currentOffset, query, selectedCategories, selectedSuffixes, selectedKeywords, selectedVdbs);
     console.log("loadMoreAssets");
   }
-
-  // const handleIntersection = (entries) => {
-
-  //   const firstEntry = entries[0];
-
-  //   if (firstEntry.isIntersecting && hasMore) {
-      
-  //     const currentOffset = offset + 25;
-  //     console.log(currentOffset);
-  //     setOffset((prevOffset) => prevOffset + 25);
-
-  //     elasticSearch(sortingType, isAsc, currentOffset, query).then((data) => {      
-  //       setProducts((prevProducts) => [...prevProducts, ...data]);
-  //     });
-  //   }
-  // };
-  
-  // useEffect(() => {
-  
-  //   const observer = new IntersectionObserver(handleIntersection);
-  //   if (observer && elementRef.current) {
-  //     observer.observe(elementRef.current);
-  //   }
-  
-  //   return () => {
-  //     if (observer && elementRef.current) {
-  //       observer.unobserve(elementRef.current);
-  //     }
-  //   };
-  // }, [products]);
-
 
   console.log("[mpSearch products]");
   console.log(products)

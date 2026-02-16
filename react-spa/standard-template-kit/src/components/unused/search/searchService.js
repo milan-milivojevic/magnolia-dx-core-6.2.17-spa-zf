@@ -17,7 +17,6 @@ const pages = [
   responseDataJson, responseDataJson2, responseDataJson3
 ]
 
-// const BASE_URL = "https://proquest.brandmakerinc.com/rest/mp/v1.1/search"
 const BASE_URL = process.env.REACT_APP_MGNL_HOST; 
 
 const apiServiceHandler = async (url, options) => {
@@ -40,7 +39,6 @@ export const getApiBearerToken = () => apiServiceHandler(`${BASE_URL}/rest/sso/a
 
 export const postSearchToken = async (page, sortingType, isAsc, offset) => {
   
-  // modify payload for sorting purposes
   const payloadSorting = setBasicSorting(sortingType, isAsc, offset)
   
   console.log(payloadSorting);
@@ -54,10 +52,6 @@ export const postSearchToken = async (page, sortingType, isAsc, offset) => {
     },
     body: JSON.stringify(payload)
   })
-
-  // const data = JSON.parse(res)
-  // console.log(data);
-  // const data = JSON.stringify(pages[page])
 
   return res
 }

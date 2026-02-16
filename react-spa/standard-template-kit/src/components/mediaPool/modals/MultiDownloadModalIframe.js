@@ -3,36 +3,23 @@ import Modal from 'react-modal';
 import { AiOutlineClose } from "react-icons/ai";
 import ClipLoader from "react-spinners/ClipLoader";
 
-/**
- * Prikazuje serverovu stranicu za multi download u iFrame-u,
- * a kompletan start_download/download flow izvodi spolja:
- *   - čita operationKey i downloadSchemeId iz iFrame DOM-a
- *   - pinguje LoadingOperation
- *   - šalje POST (start_download) preko skrivene forme
- *   - polluje LoadingOperation.do
- *   - šalje POST (download) preko skrivene forme da browser pokrene preuzimanje
- *   - završni poll
- */
 const MultiDownloadModalIframe = ({ assetIds = [], isOpen, onClose }) => {
   const viewIframeRef = useRef(null);
   const postIframeName = useRef(`multiDlPostFrame_${Math.random().toString(36).slice(2)}`);
   const cancelRef = useRef(false);
-  const eligibleRef = useRef([]); // ← lista trenutno "aktivnih" (eligibilnih) asseta iz iframe-a
+  const eligibleRef = useRef([]);
   const mutationObsRef = useRef(null);
 
   const [opKey, setOpKey] = useState('');
-  const [schemeId, setSchemeId] = useState('5'); // default "Original"
+  const [schemeId, setSchemeId] = useState('5');
   const [busy, setBusy] = useState(false);
-  const [phase, setPhase] = useState(''); // 'preparing' | 'downloading' | 'done' | 'error'
+  const [phase, setPhase] = useState('');
   const [progress, setProgress] = useState('');
   const [error, setError] = useState('');
 
-  // Novi state za onemogućavanje dugmeta kada su sve licence potrebne a nijedna nije čekirana,
-  // kao i broj trenutno eligibilnih (aktivnih) asseta prema internom DownloadSelection stanju u iframe-u.
   const [downloadDisabledByLicense, setDownloadDisabledByLicense] = useState(false);
   const [eligibleCount, setEligibleCount] = useState(0);
 
-  // iFrame koji prikazuje view za multiple download (lista + izbor sheme)
   const src = useMemo(() => {
     const qs = (assetIds || [])
       .filter(Boolean)
@@ -48,11 +35,9 @@ const MultiDownloadModalIframe = ({ assetIds = [], isOpen, onClose }) => {
       setProgress('');
       setError('');
       cancelRef.current = true;
-      // reset lokalnih pomoćnih stanja
       setEligibleCount(0);
       setDownloadDisabledByLicense(false);
       eligibleRef.current = [];
-      // ugasi MutationObserver ako postoji
       try {
         mutationObsRef.current?.disconnect?.();
       } catch {}
@@ -62,7 +47,6 @@ const MultiDownloadModalIframe = ({ assetIds = [], isOpen, onClose }) => {
     }
   }, [isOpen]);
 
-  // Pomoćne funkcije za pristup dokumentu/prozoru iFrame-a
   const getIframeDoc = useCallback(() => {
     return viewIframeRef.current?.contentDocument || viewIframeRef.current?.contentWindow?.document || null;
   }, []);
@@ -70,28 +54,24 @@ const MultiDownloadModalIframe = ({ assetIds = [], isOpen, onClose }) => {
     return viewIframeRef.current?.contentWindow || null;
   }, []);
 
-  // Pročitaj operationKey i schemeId iz iFrame-a
   const tryReadCtxFromIframe = useCallback(() => {
     try {
       const doc = getIframeDoc();
       if (!doc) return;
-      const key = doc.querySelector('input[name="operationKey"]')?.value; // ← TU JE operationKey
+      const key = doc.querySelector('input[name="operationKey"]')?.value;
       const sch = doc.querySelector('#downloadSchemeId')?.value
         || doc.querySelector('input[name="downloadSchemeId"]')?.value;
       if (key) setOpKey(key);
       if (sch) setSchemeId(sch);
     } catch {
-      // verovatno cross-origin; preskoči
     }
   }, [getIframeDoc]);
 
-  // Pročitaj listu "aktivnih" (eligibilnih) medija iz iframe JS-a ako je moguće
   const getActiveMediaFromIframe = useCallback(() => {
     try {
       const win = getIframeWin();
       const listObj = win?.DownloadSelection?.getActiveMediaObjects?.();
       const arr = Array.isArray(listObj?.mediaObjects) ? listObj.mediaObjects : [];
-      // mapiraj u { mediaGUID, mediaVersion }
       return arr
         .filter(m => m && (m.mediaGUID != null))
         .map(m => ({
@@ -103,7 +83,6 @@ const MultiDownloadModalIframe = ({ assetIds = [], isOpen, onClose }) => {
     }
   }, [getIframeWin]);
 
-  // Pročitaj stanje licenci (checkbox-evi u okviru Licensed sekcije)
   const readLicenseState = useCallback(() => {
     const doc = getIframeDoc();
     if (!doc) return { allRequireLicense: false, anyLicenseChecked: false, licenseAssetGuids: new Set() };
@@ -129,19 +108,16 @@ const MultiDownloadModalIframe = ({ assetIds = [], isOpen, onClose }) => {
     }
   }, [assetIds, getIframeDoc]);
 
-  // Re-kalkuliši eligibilnost i stanje dugmeta (pozvati na load, na promene u iframe-u, pre downloada, itd.)
   const recomputeEligibility = useCallback(() => {
-    tryReadCtxFromIframe(); // usput osveži operationKey / šemu
+    tryReadCtxFromIframe();
     const active = getActiveMediaFromIframe();
     eligibleRef.current = active;
     setEligibleCount(active.length);
 
     const { allRequireLicense, anyLicenseChecked } = readLicenseState();
-    // Dugme treba biti disabled ako -za sve asete- treba potvrditi licencu i nijedan check nije čekiran
     setDownloadDisabledByLicense(Boolean(allRequireLicense && !anyLicenseChecked));
   }, [getActiveMediaFromIframe, readLicenseState, tryReadCtxFromIframe]);
 
-  // Kada se iFrame učita – stilizuj, otkači njihov cancel i osveži opKey/shemu + postavi osluškivače promene
   const handleIframeLoad = useCallback(() => {
     tryReadCtxFromIframe();
     try {
@@ -155,7 +131,6 @@ const MultiDownloadModalIframe = ({ assetIds = [], isOpen, onClose }) => {
 
       const cancelBtn = doc.getElementById('cancelButton');
       if (cancelBtn) {
-        // Remove any existing onclick to avoid duplicate behavior
         cancelBtn.onclick = null;
         cancelBtn.addEventListener('click', (e) => {
           e.preventDefault();
@@ -163,21 +138,17 @@ const MultiDownloadModalIframe = ({ assetIds = [], isOpen, onClose }) => {
         });
       }
 
-      // Re-kalkulacija odmah po load-u (mali delay da ExtJS završi init)
       setTimeout(() => {
         recomputeEligibility();
       }, 150);
 
-      // Osluškuj promene na checkbox/radio u okviru iframe-a (license i sheme) + bilo kakve DOM mutacije
       const changeHandler = () => recomputeEligibility();
       doc.addEventListener('change', changeHandler, true);
       doc.addEventListener('click', changeHandler, true);
 
-      // MutationObserver – iframe s ExtJS-om često menja DOM bez događaja na inputima
       try {
         mutationObsRef.current?.disconnect?.();
         mutationObsRef.current = new MutationObserver(() => {
-          // debounce manjim timeoutom, da ne zagušimo
           setTimeout(() => recomputeEligibility(), 50);
         });
         mutationObsRef.current.observe(doc.body, {
@@ -187,10 +158,9 @@ const MultiDownloadModalIframe = ({ assetIds = [], isOpen, onClose }) => {
           attributeFilter: ['checked', 'class', 'disabled', 'value'],
         });
       } catch {
-        /* noop */
+        
       }
 
-      // Čišćenje pri unmount/close
       const cleanup = () => {
         try {
           doc.removeEventListener('change', changeHandler, true);
@@ -201,7 +171,6 @@ const MultiDownloadModalIframe = ({ assetIds = [], isOpen, onClose }) => {
         } catch {}
         mutationObsRef.current = null;
       };
-      // ako se modal zatvori – očisti
       const observerForClose = new MutationObserver(() => {
         if (!isOpen) cleanup();
       });
@@ -209,14 +178,12 @@ const MultiDownloadModalIframe = ({ assetIds = [], isOpen, onClose }) => {
         observerForClose.observe(document.body, { attributes: true });
       } catch {}
     } catch {
-      /* noop */
+      
     }
   }, [getIframeDoc, isOpen, onClose, recomputeEligibility, tryReadCtxFromIframe]);
 
-  // LoadingOperation parser (server vraća JS objekat, ne čisti JSON)
   function parseStatusText(txt) {
     try {
-      // eslint-disable-next-line no-new-func
       return new Function(`return (${txt});`)();
     } catch {
       return null;
@@ -248,7 +215,6 @@ const MultiDownloadModalIframe = ({ assetIds = [], isOpen, onClose }) => {
     return { status: 'cancelled' };
   }
 
-  // Slanje POST-a kroz skrivenu formu (kao u legacy kodu) – obezbeđuje realan browser download
   function submitViaHiddenForm(actionVal, operationId, scheme, ids) {
     const form = document.createElement('form');
     form.method = 'POST';
@@ -263,12 +229,11 @@ const MultiDownloadModalIframe = ({ assetIds = [], isOpen, onClose }) => {
       form.appendChild(inp);
     };
 
-    put('action', actionVal);                       // start_download | download
-    put('operationKey', operationId);               // isto kao i u iFrame-u
-    put('schemeSelectionRadio', String(scheme));    // npr. 5
-    put('downloadSchemeId', String(scheme));        // isto
+    put('action', actionVal);
+    put('operationKey', operationId);
+    put('schemeSelectionRadio', String(scheme));
+    put('downloadSchemeId', String(scheme));
 
-    // IDs može biti niz GUID-ova (broj/string) ili objekata { mediaGUID, mediaVersion } – oboje podržano
     (ids || []).forEach(item => {
       const isObj = item && typeof item === 'object';
       const guid = String(isObj ? (item.mediaGUID ?? item.id ?? item.guid ?? item.assetId) : item);
@@ -279,13 +244,11 @@ const MultiDownloadModalIframe = ({ assetIds = [], isOpen, onClose }) => {
     });
 
     document.body.appendChild(form);
-    form.submit(); // navigacija ide u hidden iframe -> browser download radi normalno
+    form.submit();
     setTimeout(() => form.remove(), 0);
   }
 
-  // Klik na "Download" (spoljašnja dugmad)
   const handleDownloadClick = useCallback(async () => {
-    // osveži operationKey/shemu i eligibilne asete (u slučaju da je korisnik promenio izbor u iFrame-u)
     recomputeEligibility();
 
     const key = opKey;
@@ -295,7 +258,6 @@ const MultiDownloadModalIframe = ({ assetIds = [], isOpen, onClose }) => {
       return;
     }
 
-    // Koristi samo trenutno "aktivne" (eligibilne) asete prema iframe-u
     const eligible = Array.isArray(eligibleRef.current) ? eligibleRef.current : [];
     if (!eligible.length) {
       alert('Nijedan asset trenutno nije spreman za preuzimanje. Proverite da li ste selektovali/čekirali potrebne stavke i/ili prihvatili licence.');
@@ -309,10 +271,8 @@ const MultiDownloadModalIframe = ({ assetIds = [], isOpen, onClose }) => {
     cancelRef.current = false;
 
     try {
-      // 1) inicijalni ping
       await initialProbe(key);
 
-      // 2) START_DOWNLOAD
       submitViaHiddenForm('start_download', key, sch, eligible);
       const prep = await poll(key);
       if (String(prep.status) === '3') {
@@ -322,7 +282,6 @@ const MultiDownloadModalIframe = ({ assetIds = [], isOpen, onClose }) => {
         return;
       }
 
-      // 3) DOWNLOAD (stvarni fajl)
       setPhase('downloading');
       submitViaHiddenForm('download', key, sch, eligible);
       const fin = await poll(key);
@@ -335,7 +294,6 @@ const MultiDownloadModalIframe = ({ assetIds = [], isOpen, onClose }) => {
 
       setPhase('done');
       setBusy(false);
-      // Fajl se preuzima preko hidden iframe-a.
     } catch (e) {
       console.error(e);
       setError('Neočekivana greška tokom preuzimanja.');
@@ -351,7 +309,7 @@ const MultiDownloadModalIframe = ({ assetIds = [], isOpen, onClose }) => {
 
   return (
     <>
-      {/* Globalni stilovi za ReactModal overlay */}
+      {}
       <style>{`
         .ReactModal__Overlay.ReactModal__Overlay--after-open {
           position: fixed;
@@ -414,13 +372,11 @@ const MultiDownloadModalIframe = ({ assetIds = [], isOpen, onClose }) => {
               onLoad={handleIframeLoad}
             />
 
-            {/* Footer sa našim kontrolama (Cancel / Download + status) */}
+            {}
             <div className="multiFooter">
               <div style={{ display: 'flex', gap: 12, alignItems: 'center' }}>
-                {/* (opciono) mali indikator koliko je trenutno eligibilnih */}
-                {/* <span style={{ fontSize: 12, color: '#666', marginRight: 8 }}>
-                  {eligibleCount > 0 ? `${eligibleCount} selected` : ''}
-                </span> */}
+                {}
+                {}
 
                 <button
                   onClick={handleCancelClick}
@@ -462,7 +418,7 @@ const MultiDownloadModalIframe = ({ assetIds = [], isOpen, onClose }) => {
             </div>
           </div>
 
-          {/* Hidden iframe koji prima POST submit (omogućava stvarni download) */}
+          {}
           <iframe
             name={postIframeName.current}
             title="multiDlPostFrame"

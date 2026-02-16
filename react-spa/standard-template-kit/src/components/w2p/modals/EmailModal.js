@@ -10,20 +10,15 @@ const EmailModal = ({ documentId, isOpen, onClose }) => {
 
   const handleIframeLoad = () => {
     if (iframeRef.current) {
-      // Access the iframe's document
       const iframeDocument = iframeRef.current.contentDocument;
 
-      // Create a new style element
       const styleElement = iframeDocument.createElement('style');
 
-      // Define your CSS styles here
       const cssStyles = `
       `;
 
-      // Set the style element's content to your CSS styles
       styleElement.innerHTML = cssStyles;
 
-      // Append the style element to the iframe's document head
       iframeDocument.head.appendChild(styleElement);
     }
   };

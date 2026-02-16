@@ -97,13 +97,10 @@ function StaticContentSearchComponent (props) {
     }
   }
   
-  // Korišćenje metode map za primenu funkcije shortenUrl na svaki URL u nizu
   const shortenedUrls = dataArr.map(shortenUrl);
   console.log(shortenedUrls);
   const filteredUrls = shortenedUrls.filter(url => !url.path.includes("/Config-Pages/") && !url.path.includes("/Components-Library/"));
-    // Ispis skraćenih URL-ova
   console.log(filteredUrls);
-
 
   const resultArr = [];
 
@@ -130,7 +127,6 @@ function StaticContentSearchComponent (props) {
   });
 
   console.log(resultArr);
-  // }
 
   return (
       <div className='flexColumn staticSearch'>

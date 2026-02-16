@@ -201,12 +201,11 @@ function GlobalLayoutComponent ({
       });
   }, [linkStyleName, linkNoStyles, configProps?.linkStyleName, apiBase, restPath, nodeName]);
 
-
   const linkExist = page || external || download || null;
 
   const HeadlineLevel = headlineLevel || configProps?.headlineLevel || "h1";  
   const downloadLink = download ? baseUrl + download['@link'] : baseUrl;  
-  const href = linkType === "page" ? (getRouterBasename() + page).replace("//", "/").replace("Home/Home", "Home") : linkType === "external" ? external : downloadLink;
+  const href = linkType === "page" ? (getRouterBasename() + page).replace("
 
   const validOddLayouts = ["layout1", "layout3", "layout5"];
   const validEvenLayouts = ["layout2", "layout4"];
@@ -216,7 +215,6 @@ function GlobalLayoutComponent ({
   const linkRightLayouts = validEvenLayouts.includes(layouts) ? linkRightLayout || configProps?.linkRightLayout : "auto";
   const oddLayoutsLinkPosition = validOddLayouts.includes(layouts) ? linkPosition || configProps?.linkPosition : null;
   const evenLayoutsLinkPosition = validEvenLayouts.includes(layouts) || validSpecialLayouts.includes(layouts) ? linkRightPosition || configProps?.linkRightPosition : "center_left";
-
 
   const defBgColor = wrapperDefaultBackColor || configProps?.wrapperDefaultBackColor || null;
   const hovBgColor = wrapperHoverBackColor || configProps?.wrapperHoverBackColor || null;
@@ -232,7 +230,6 @@ function GlobalLayoutComponent ({
 
   const defLinkBorderColor = linkBorderColor || configProps?.linkBorderColor || linkConfigProps?.linkBorderColor || null;
   const hovLinkBorderColor = linkBorderHoverColor || configProps?.linkBorderHoverColor || linkConfigProps?.linkBorderHoverColor || defLinkBorderColor;
-
 
   const imgDefBgColor = imageDefaultBackColor || configProps?.imageDefaultBackColor || imageConfigProps?.imageDefaultBackColor || null;
   const imgHovBgColor = imageHoverBackColor || configProps?.imageHoverBackColor || imageConfigProps?.imageHoverBackColor || null;
@@ -285,17 +282,10 @@ function GlobalLayoutComponent ({
     textAlign: descriptionAlign || configProps?.descriptionAlign || null       
   }
 
-  // const linkWraperPaddingBottom = linkPaddingBottom || configProps?.linkPaddingBottom || linkConfigProps?.linkPaddingBottom || null;
-  // const fontSizeCalc = linkLabelFontSize || configProps?.linkLabelFontSize || linkConfigProps?.linkLabelFontSize || null;
-  // const lineHeightCalc = linkLabelLineHeight || configProps?.linkLabelLineHeight || linkConfigProps?.linkLabelLineHeight || null;
-
-  // const linkWraperPaddingBottomCalculated = linkWraperPaddingBottom > (lineHeightCalc || fontSizeCalc) ? linkWraperPaddingBottom : (lineHeightCalc || fontSizeCalc);
-
   const linkComponentStyles = {
     height: linkSpecialHeight,
     paddingTop: linkPaddingTop || configProps?.linkPaddingTop || linkConfigProps?.linkPaddingTop || null,
     paddingRight: linkPaddingRight || configProps?.linkPaddingRight || linkConfigProps?.linkPaddingRight || null,
-    // paddingBottom: validSpecialLayouts.includes(layouts) ? linkWraperPaddingBottomCalculated : linkPaddingBottom || configProps?.linkPaddingBottom || linkConfigProps?.linkPaddingBottom || null,
     paddingBottom: linkPaddingBottom || configProps?.linkPaddingBottom || linkConfigProps?.linkPaddingBottom || null,
     paddingLeft: linkPaddingLeft || configProps?.linkPaddingLeft || linkConfigProps?.linkPaddingLeft || null, 
     justifySelf: oddLayoutsLinkPosition 

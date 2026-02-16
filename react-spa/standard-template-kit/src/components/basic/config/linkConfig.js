@@ -71,7 +71,7 @@ function LinkConfig ({
   const baseUrl = process.env.REACT_APP_MGNL_HOST; 
 
   const downloadLink = download ? download['@link'] : baseUrl;
-  const href = linkType === "page" ? (getRouterBasename() + page).replace("//", "/").replace("Home/Home", "Home") : linkType === "external" ? external : downloadLink;
+  const href = linkType === "page" ? (getRouterBasename() + page).replace("
   
   const linkIcons = linkIcon || "";
 
@@ -84,7 +84,6 @@ function LinkConfig ({
   const defBorderColor = linkBorderColor || null;
   const hovBorderColor = linkBorderHoverColor || defBorderColor;
   
-
   const linkComponentStyles = {
     paddingTop: linkPaddingTop || null,
     paddingRight: linkPaddingRight || null,

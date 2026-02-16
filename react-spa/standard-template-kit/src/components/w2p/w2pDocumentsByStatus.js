@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { myDocumentsService, inWorkDocumentsService, finalizedDocumentsService, rejectedDocumentsService, waitingApprovalDocumentsService, archivedDocumentsService  } from '../../api/w2pSearchService'
 import DocumentCard from './helpers/DocumentCard';
 
-
 function W2PDocumentsByStatus ({  
   documentStatuses,
   sortOrderDocuments,
@@ -103,7 +102,6 @@ function W2PDocumentsByStatus ({
     paddingLeft: titlePaddingLeft || null
   }  
 
-  
   return (
     <div className='mpSearchComponent w2p documents'>
       {title &&

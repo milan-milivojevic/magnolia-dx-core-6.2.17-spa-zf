@@ -189,12 +189,11 @@ function GlobalLayoutComponentConfig ({
       });
   }, [linkStyleName, linkNoStyles, apiBase, restPath, nodeName]);
 
-
   const linkExist = page || external || download || null;
 
   const HeadlineLevel = headlineLevel || "h1";  
   const downloadLink = download ? baseUrl + download['@link'] : baseUrl; 
-  const href = linkType === "page" ? (getRouterBasename() + page).replace("//", "/").replace("Home/Home", "Home") : linkType === "external" ? external : downloadLink;
+  const href = linkType === "page" ? (getRouterBasename() + page).replace("
 
   const validOddLayouts = ["layout1", "layout3", "layout5"];
   const validEvenLayouts = ["layout2", "layout4"];
@@ -204,7 +203,6 @@ function GlobalLayoutComponentConfig ({
   const linkRightLayouts = validEvenLayouts.includes(layouts) ? linkRightLayout : "auto";
   const oddLayoutsLinkPosition = validOddLayouts.includes(layouts) ? linkPosition : null;
   const evenLayoutsLinkPosition = validEvenLayouts.includes(layouts) || validSpecialLayouts.includes(layouts) ? linkRightPosition : "center_left";
-
 
   const defBgColor = wrapperDefaultBackColor || null;
   const hovBgColor = wrapperHoverBackColor || null;
@@ -272,20 +270,11 @@ function GlobalLayoutComponentConfig ({
     textAlign: descriptionAlign || null       
   }
 
-  // const linkWraperPaddingBottom = linkPaddingBottom || linkConfigProps?.linkPaddingBottom || null;
-  // console.log(linkPaddingBottom);
-  // console.log(linkWraperPaddingBottom);
-  // const fontSizeCalc = linkLabelFontSize || linkConfigProps?.linkLabelFontSize || null;
-  // const lineHeightCalc = linkLabelLineHeight || linkConfigProps?.linkLabelLineHeight || null;
-
-  // const linkWraperPaddingBottomCalculated = linkWraperPaddingBottom > (lineHeightCalc || fontSizeCalc) ? linkWraperPaddingBottom : (lineHeightCalc || fontSizeCalc);
-
   const linkComponentStyles = {
     height: linkSpecialHeight,
     paddingTop: linkPaddingTop || linkConfigProps?.linkPaddingTop || null,
     paddingRight: linkPaddingRight || linkConfigProps?.linkPaddingRight || null,
     paddingBottom: linkPaddingBottom || linkConfigProps?.linkPaddingBottom || null,
-    // paddingBottom: validSpecialLayouts.includes(layouts) ? linkWraperPaddingBottomCalculated : linkPaddingBottom || linkConfigProps?.linkPaddingBottom || null,
     paddingLeft: linkPaddingLeft || linkConfigProps?.linkPaddingLeft || null, 
     justifySelf: oddLayoutsLinkPosition 
   }

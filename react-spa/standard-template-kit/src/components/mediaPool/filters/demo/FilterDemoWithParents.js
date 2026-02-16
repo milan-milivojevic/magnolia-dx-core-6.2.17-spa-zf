@@ -12,10 +12,9 @@ export default function IndeterminateCheckbox() {
       label: "Parent 1",
       value: "parentValue1",
       children: [
-        { id: 1, label: "Child 1", value: "value 1" }, // Dodato `value`
+        { id: 1, label: "Child 1", value: "value 1" },
         { id: 2, label: "Child 2", value: "value 2" },
         { id: 3, label: "Child 3", value: "value 3" },
-        // Add more children for Parent 1
       ],
     },
     {
@@ -25,10 +24,8 @@ export default function IndeterminateCheckbox() {
       children: [
         { id: 4, label: "Child 4", value: "value 4" },
         { id: 5, label: "Child 5", value: "value 5" },
-        // Add more children for Parent 2
       ],
     },
-    // Add more parents here
   ];
 
   const [parents, setParents] = React.useState(initialParents);
@@ -65,7 +62,6 @@ export default function IndeterminateCheckbox() {
     });
   };
   
-
   const toggleChildCheckbox = (parentId, childId) => {
 
     setParents((prevState) => {
@@ -83,7 +79,6 @@ export default function IndeterminateCheckbox() {
     });
   };  
 
-
   const applySelection = () => {
     const values = [];
     
@@ -91,11 +86,11 @@ export default function IndeterminateCheckbox() {
       const allChildrenChecked = parent.children.every(child => child.isChecked);
       
       if (allChildrenChecked) {
-        values.push(parent.value); // Dodajte vrednost parenta ako su svi childovi selektovani
+        values.push(parent.value);
       }
       
       parent.children.forEach(child => {
-        if (child.isChecked) { // Ako nisu svi childovi selektovani, dodajemo vrednosti childova pojedinačno
+        if (child.isChecked) {
           values.push(child.value);
         }
       });
@@ -115,7 +110,7 @@ export default function IndeterminateCheckbox() {
         return parent;
       });
     });
-    setSelectedValues([]); // Resetuj selektovane vrednosti
+    setSelectedValues([]);
   };
 
   const close = () => {
@@ -127,7 +122,7 @@ export default function IndeterminateCheckbox() {
     <div>
       <div>
         <div onClick={toggleFilter} style={{ cursor: 'pointer', display: 'flex', alignItems: 'center' }}>
-          {isFilterOpen ? <ExpandMore /> : <ChevronRight />} {/* Chevron icon */}
+          {isFilterOpen ? <ExpandMore /> : <ChevronRight />} {}
           <span>Filter</span>
         </div>
         {isFilterOpen && (
@@ -136,7 +131,7 @@ export default function IndeterminateCheckbox() {
               <div key={parent.id}>
                 <div style={{ display: 'flex', alignItems: 'center' }}>
                   <div onClick={() => toggleParent(parent.id)} style={{ cursor: 'pointer', marginRight: '10px' }}>
-                    {parent.isParentOpen ? <ExpandMore /> : <ChevronRight />} {/* Chevron icon */}
+                    {parent.isParentOpen ? <ExpandMore /> : <ChevronRight />} {}
                   </div>
                   <FormControlLabel
                     label={parent.label}
@@ -158,7 +153,7 @@ export default function IndeterminateCheckbox() {
                     flexDirection: 'column', 
                     ml: 32 
                   }}
-                  key={parent.children.map(c => c.isChecked).join('-')} // Dodajte ovu liniju
+                  key={parent.children.map(c => c.isChecked).join('-')}
                 >
                   {parent.children.map((child) => (
                     <FormControlLabel

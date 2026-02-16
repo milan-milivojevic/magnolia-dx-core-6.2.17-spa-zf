@@ -47,7 +47,7 @@ function Navigation() {
     <nav className='Navigation'>
       {navItems.map((item) => {
         let newHref = (getRouterBasename() + item['@path'].replace(process.env.REACT_APP_MGNL_APP_BASE, '')).replace(
-          '//',
+          '
           '/'
         );
 

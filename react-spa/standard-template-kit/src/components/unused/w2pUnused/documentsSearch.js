@@ -6,7 +6,6 @@ import { FaThList } from 'react-icons/fa';
 import { idSearch, elasticSearchService } from '../../../api/searchService'
 import Card from '../../search/Card';
 
-
 function DocumentsSearch ({   
   perPage,
   perRow,
@@ -19,8 +18,6 @@ function DocumentsSearch ({
   copyLinkButton
 }) {
   
-  // const searchParams = new URLSearchParams(window.location.search);
-  // const urlQuery = searchParams.get('q');
   const elementRef = useRef(null);
 
   const [query, setQuery] = useState("");  
@@ -33,7 +30,6 @@ function DocumentsSearch ({
   const [offset, setOffset] = useState(0);
   const [matches, setMatches] = useState(0);
   
-    
   const toggleGridView = () => {
     console.log("gridView")
   }
@@ -59,81 +55,19 @@ function DocumentsSearch ({
     console.log(data.items);
     console.log(data.totalHits);
     console.log("----------------------");
-    // const res = JSON.parse(postSearchToken(page, sortingType, isAsc, offset))
     setMatches(data.totalHits);
     return data.items;
   };
 
-  /* On sort change */
   useEffect(() => {
     elasticSearch(sortingType, isAsc, 0).then(data => {
       setProducts([]);
       setProducts(data);
-      // reset offset
       setOffset(0);
       setMatches(data.totalHits);
     })
   }, [sort]);
 
-  // async function fetchMoreItems() {
-  //   setOffset(prev => prev + 25)
-  //   console.log('[mpSearch fetchMoreItems offset]');
-  //   console.log(offset);
-  //   console.log("----------------------");
-  //   const data = await elasticSearch(sortingType, isAsc, offset);
-
-  //   console.log("[mpSearch useEffect fetchMoreItems products]");
-  //   console.log(products);
-  //   console.log("----------------------");
-
-  //   if (data && data.length === 0) {
-  //     setHasMore(false);
-  //   } else {
-  //     setProducts(prevProducts => [...prevProducts, ...data]);
-  //   }
-
-  //   setMatches(data.totalHits);
-  // }  
-
-  // useEffect(() => {
-
-  //   console.log("[mpSearch useEffect products]");
-  //   console.log(products)
-  //   console.log("----------------------");
-
-  //   const observer = new IntersectionObserver(onIntersection);
-
-  //   if (observer && elementRef.current) {
-  //     observer.observe(elementRef.current)
-  //   }
-
-  //   return () => {
-  //     if (observer) {
-  //       observer.disconnect()
-  //     }
-  //   }
-  // // eslint-disable-next-line react-hooks/exhaustive-deps
-  // }, [products]);  
-
-  // const onIntersection = (entries) => {
-    
-  //   console.log("[mpSearch onIntersection entries]");
-  //   console.log(entries);
-  //   console.log("----------------------");
-
-  //   const firstEntry = entries[0];
-
-  //   if (firstEntry.isIntersecting && hasMore) {
-  //     console.log("[mpSearch onIntersection firstEntry.isIntersecting]");
-  //     console.log(firstEntry.isIntersecting);
-  //     console.log("----------------------");
-  //     console.log("[mpSearch onIntersection hasMore]");
-  //     console.log(hasMore);
-  //     console.log("----------------------");
-  //     fetchMoreItems();
-  //   }
-  // }
-  
   const querySearch = async (query) => {
     console.log(query)
     const data = await idSearch(query);
@@ -152,8 +86,8 @@ function DocumentsSearch ({
   
   return (
     <div className='mpSearchComponent'>
-      {/* <Filters handleFilters={handleFilters} /> */}
-      {/* <p style={{ textAlign: 'center' }}>{JSON.stringify(categories)}</p> */}      
+      {}
+      {}      
       <div className='flexColumn staticSearch'>
         <div className='flex headerSearch'>
           <input 

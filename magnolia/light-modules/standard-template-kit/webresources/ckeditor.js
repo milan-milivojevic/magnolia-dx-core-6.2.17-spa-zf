@@ -23,7 +23,6 @@ CKEDITOR.editorConfig = function( config ) {
 		{ name: 'ZFSansBold inline', element: 'span', styles: { 'font-family': 'ZFSansBold, sans-serif' } },
     ];
     
-
 	config.toolbarGroups = [
 		{ name: 'document', groups: [ 'mode', 'document', 'doctools' ] },
 		{ name: 'clipboard', groups: [ 'clipboard', 'undo' ] },

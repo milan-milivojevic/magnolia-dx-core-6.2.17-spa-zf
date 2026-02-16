@@ -9,7 +9,6 @@ import filter3Payload from "./payloads/filter3Payload.json";
 export default function Filter3({
   onUpdateSelectedFilter3,
   selectedFilter3 = [],
-  // props iz MpSearch
   query = "",
   sortingType,
   isAsc,
@@ -29,13 +28,11 @@ export default function Filter3({
   const baseUrl = process.env.REACT_APP_MGNL_HOST;
 
   const injectActiveFilters = (payload) => {
-    // query
     try {
       payload.criteria.subs[0].subs[0].value = query ?? "";
       payload.criteria.subs[0].subs[1].value = query ?? "";
     } catch {}
 
-    // Themes
     if (selectedCategories?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -45,7 +42,6 @@ export default function Filter3({
       });
     }
 
-    // FileInfo
     if (selectedSuffixes?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -54,7 +50,6 @@ export default function Filter3({
       });
     }
 
-    // Keywords
     if (selectedKeywords?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -64,7 +59,6 @@ export default function Filter3({
       });
     }
 
-    // VDB
     if (selectedVdbs?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -74,7 +68,6 @@ export default function Filter3({
       });
     }
 
-    // Filter1 i Filter2 (bez Filter3)
     if (selectedFilter1?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -96,7 +89,6 @@ export default function Filter3({
   useEffect(() => {
     (async () => {
       try {
-        // 1) COUNT customAttribute_477
         const countPayload = JSON.parse(JSON.stringify(filter3Payload));
         injectActiveFilters(countPayload);
 
@@ -114,7 +106,6 @@ export default function Filter3({
         const countsMap = new Map();
         groups.forEach((g) => countsMap.set(+g.group, g.count));
 
-        // 2) Stablo (Asset Group)
         const treeRes = await fetch(`${baseUrl}/rest/mp/v1.0/asset-attributes/477/trees`);
         const treeData = await treeRes.json();
 

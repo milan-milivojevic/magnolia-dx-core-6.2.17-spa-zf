@@ -84,35 +84,6 @@ function Navigation() {
 
       console.log("NAV ARRAAAY: ", navArr);
 
-      // const lvl2Items = lvl1Items
-      //   .flatMap((nodeName) =>
-      //     nodeName["@nodes"].map((childName) => nodeName[childName])
-      //   )
-      //   .filter((item) => item !== undefined);
-
-      // const lvl3Items = lvl2Items
-      //   .flatMap((nodeName) =>
-      //     nodeName["@nodes"].map((childName) => nodeName[childName])
-      //   )
-      //   .filter((item) => item !== undefined);
-
-      // let childItems = items.map((nodeName, i) => {
-      //   const child = nodeName['@nodes'];
-      //   console.log(child);
-
-      //   let children = child.map((childName) => {
-      //     console.log(nodeName[childName]);
-      //     return nodeName[childName];
-      //   })
-
-      //   console.log(children);
-      //   return children[i];
-      // });
-
-      // console.log(childItems);
-      // let definedChildItems = childItems.filter(item => item !== undefined);
-      // console.log(definedChildItems);
-
       setNavItems([...lvl1Items]);
     }
 
@@ -126,7 +97,7 @@ function Navigation() {
   return navItems ? (
     <nav className="Navigation">
       {navItems.map((item) => {
-        let newHref = (getRouterBasename() + item["@path"].replace(process.env.REACT_APP_MGNL_APP_BASE, "")).replace("//", "/");
+        let newHref = (getRouterBasename() + item["@path"].replace(process.env.REACT_APP_MGNL_APP_BASE, "")).replace("
 
         return (
           <a

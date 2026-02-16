@@ -140,7 +140,7 @@ function TextLinkConfig ({
 
   const HeadlineLevel = headlineLevel || "h1";
   const downloadLink = download ? download['@link'] : baseUrl;  
-  const href = linkType === "page" ? (getRouterBasename() + page)?.replace("//", "/")?.replace("Home/Home", "Home") : linkType === "external" ? external : downloadLink;
+  const href = linkType === "page" ? (getRouterBasename() + page)?.replace("
 
   const defBgColor = wrapperDefaultBackColor || null;  
   const hovBgColor = wrapperHoverBackColor || defBgColor || null; 

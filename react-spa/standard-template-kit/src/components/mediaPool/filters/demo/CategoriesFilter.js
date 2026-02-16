@@ -1,8 +1,3 @@
-// CategoriesFilter.js
-// ✓ Uklonjeni "tags"
-// ✓ COUNT računa i VDB (vdb.id u unutrašnjem AND bloku sa isVariant)
-// ✓ Props usklađeni sa MpSearch
-// ✓ fetch sa credentials: 'include'
 
 import React, { useState, useEffect } from "react";
 import Checkbox from '@mui/material/Checkbox';
@@ -22,7 +17,6 @@ export default function CategoriesFilter({
   selectedSuffixes = [],
   selectedVdbs = [],
   selectedKeywords = [],
-  // primaš ih iz MpSearch, ali ih (za sada) ne koristimo u payloadu:
   selectedFilter1 = [],
   selectedFilter2 = [],
   selectedFilter3 = []
@@ -37,16 +31,12 @@ export default function CategoriesFilter({
 
   useEffect(() => {
     (async () => {
-      // 1) Klon payloada (payload je odvojeni JSON)
       const payload = JSON.parse(JSON.stringify(categoriesPayload));
 
-      // 2) Upis query-ja u match
       if (payload?.criteria?.subs?.[0]) {
         payload.criteria.subs[0].value = query;
       }
 
-      // 3) Uključujemo ostale aktivne filtere za COUNT (osim samih kategorija)
-      //    - File info -> extension
       if (selectedSuffixes.length) {
         payload.criteria.subs.push({
           "@type": "in",
@@ -55,7 +45,6 @@ export default function CategoriesFilter({
         });
       }
 
-      //    - Keywords -> structuredKeywords.id
       if (selectedKeywords.length) {
         payload.criteria.subs.push({
           "@type": "in",
@@ -65,14 +54,12 @@ export default function CategoriesFilter({
         });
       }
 
-      //    - VDB -> vdb.id (MORA u unutrašnji AND blok)
       if (selectedVdbs.length) {
-        // pokušaj da nađemo and blok sa isVariant == false
         const andBlock = payload.criteria.subs.find(s =>
           s['@type'] === 'and' &&
           Array.isArray(s.subs) &&
           s.subs.some(x => x['@type'] === false && Array.isArray(x.fields) && x.fields.includes('isVariant'))
-        ) || payload.criteria.subs.find(s => s.subs); // fallback na prvi sa subs
+        ) || payload.criteria.subs.find(s => s.subs);
         if (andBlock) {
           andBlock.subs.push({
             "@type": "in",
@@ -83,7 +70,6 @@ export default function CategoriesFilter({
         }
       }
 
-      // 4) COUNT za kategorije
       const response = await fetch(`${baseUrl}/rest/mp/v1.1/search`, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
@@ -92,16 +78,13 @@ export default function CategoriesFilter({
       });
       const data = await response.json();
 
-      // 5) Izvlačenje count-ova
       const countsMap = new Map();
       const groups = data?.aggregations?.categories?.aggs?.id?.subGroups || [];
       groups.forEach(g => countsMap.set(+g.group, g.count));
 
-      // 6) Učitavanje punog stabla tema (/v1.2/themes)
       const resp = await fetch(`${baseUrl}/rest/mp/v1.2/themes`, { credentials: 'include' });
       const themesData = await resp.json();
 
-      // Rekurzivno mapiranje + sortiranje (prvo sa count>0 A-Z, pa sa 0 A-Z)
       const mapItems = items => items
         .filter(i => !i.disabled)
         .map(i => {
@@ -139,7 +122,6 @@ export default function CategoriesFilter({
     selectedKeywords
   ]);
 
-  /* Otvaranje / zatvaranje filtera (state snapshot) */
   const extractCheckStates = (items) => items.map(i => ({
     isChecked: i.isChecked,
     children: i.children ? extractCheckStates(i.children) : null
@@ -152,7 +134,6 @@ export default function CategoriesFilter({
     setIsFilterOpen(!isFilterOpen);
   };
 
-  /* Dropdown toggles */
   const toggleParentDropdown = (parentId) => setParents(p => p.map(par => par.id === parentId ? { ...par, isParentOpen: !par.isParentOpen } : par));
   const toggleChildDropdown = (parentId, childId) => setParents(p => p.map(par => par.id === parentId ? {
     ...par,
@@ -166,7 +147,6 @@ export default function CategoriesFilter({
     } : ch)
   } : par));
 
-  /* Checkbox toggles — zadržavam postojeću logiku */
   const toggleParentCheckbox = (parentId) => setParents(prev => prev.map(par => {
     if (par.id === parentId) {
       if (par.children) {
@@ -253,7 +233,6 @@ export default function CategoriesFilter({
     return par;
   }));
 
-  /* Apply / Clear / Cancel */
   const applySelection = () => {
     const values = [];
     const traverse = (items) => {

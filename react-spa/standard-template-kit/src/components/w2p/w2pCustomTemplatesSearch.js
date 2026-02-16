@@ -5,7 +5,6 @@ import { idSearch, templatesSearchService, newTemplates, recentlyUsedTemplates, 
 import Card from './helpers/Card';
 import CryptoJS from 'crypto-js';
 
-
 function W2PCustomTemplatesSearch ({   
   templateIds, 
   linkToSearchResult, 
@@ -147,7 +146,6 @@ function W2PCustomTemplatesSearch ({
     paddingLeft: titlePaddingLeft || null
   }  
 
-  
   return (
     <div className='mpSearchComponent' id={navigationId && navigationId}>
       {title &&

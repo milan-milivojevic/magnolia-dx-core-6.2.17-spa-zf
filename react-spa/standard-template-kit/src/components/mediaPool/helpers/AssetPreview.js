@@ -2,31 +2,26 @@ import React, { useState, useEffect } from 'react';
 import { BsChevronLeft, BsChevronRight } from "react-icons/bs";
 import noImage from './no_image.jpg';
 
-// ✅ DODATO: za public modal preview (token + fetch blob)
 import { getPublicApiBearerToken } from '../../../api/searchService';
 
 const AssetPreview = ({ assetId, assetVersion, assetPageCount, assetResourceType, isModal, usePublicAuth = false }) => {
 
-  /* Defining state variables */
   const [currentPage, setCurrentPage] = useState(1);
   const [previewImageStatus, setPreviewImageStatus] = useState("large");
   const [imageStatus, setImageStatus] = useState("large");
 
-  // ✅ DODATO: secure preview (blob url) samo za MODAL + public
   const [secureSrc, setSecureSrc] = useState(null);
   const [secureFailed, setSecureFailed] = useState(false);
 
   const hasMultiplePages = Number(assetPageCount) > 1;
-  const shouldUseSecurePreview = !!usePublicAuth; // ✅ samo u modalu, da ne ubijemo performance na grid-u
+  const shouldUseSecurePreview = !!usePublicAuth;
 
-  /* Handling change of image preview based on number of asset pages */
   const handlePageChange = (nextPage) => {
     if (nextPage >= 1 && nextPage <= assetPageCount) {
       setCurrentPage(nextPage);
     }
   };
 
-  /* Handling error when there is no image for defined size or when there is no image at all */
   const handleImageError = (e) => {
     if (imageStatus === "large") {
       e.target.src = `/rest/mp/v1.0/previews/middle/asset/${assetId}/version/${assetVersion}`;
@@ -37,7 +32,6 @@ const AssetPreview = ({ assetId, assetVersion, assetPageCount, assetResourceType
     }
   };
 
-  /* Handling error when there is no image for defined size or when there is no image at all, for assets with multiple pages */
   const handlePageImageError = (e) => {
     if (previewImageStatus === "large") {
       e.target.src = `/rest/mp/v1.0/previews/middle/asset/${assetId}/version/${assetVersion}/watermark/false/page/${currentPage}`;
@@ -48,7 +42,6 @@ const AssetPreview = ({ assetId, assetVersion, assetPageCount, assetResourceType
     }
   };
 
-  // ✅ DODATO: secure preview fetch (Authorization header + credentials omit)
   useEffect(() => {
     if (!shouldUseSecurePreview) {
       setSecureSrc(null);
@@ -65,7 +58,7 @@ const AssetPreview = ({ assetId, assetVersion, assetPageCount, assetResourceType
         headers: {
           "Authorization": `Bearer ${accessToken}`
         },
-        credentials: "omit",   // 🔴 KRITIČNO: nema cookie-a => nema globalnog login-a
+        credentials: "omit",
         cache: "no-store"
       });
 
@@ -87,7 +80,6 @@ const AssetPreview = ({ assetId, assetVersion, assetPageCount, assetResourceType
         return;
       }
 
-      // Video preview (modal)
       if (assetResourceType === 'Video' && isModal) {
         const videoUrl = `/rest/mp/v1.0/previews/video/asset/${assetId}`;
 
@@ -106,7 +98,6 @@ const AssetPreview = ({ assetId, assetVersion, assetPageCount, assetResourceType
         return;
       }
 
-      // Image preview
       const largeUrl = (hasMultiplePages && isModal)
         ? `/rest/mp/v1.0/previews/large/asset/${assetId}/version/${assetVersion}/watermark/false/page/${currentPage}`
         : `/rest/mp/v1.0/previews/large/asset/${assetId}/version/${assetVersion}`;
@@ -115,7 +106,6 @@ const AssetPreview = ({ assetId, assetVersion, assetPageCount, assetResourceType
         ? `/rest/mp/v1.0/previews/middle/asset/${assetId}/version/${assetVersion}/watermark/false/page/${currentPage}`
         : `/rest/mp/v1.0/previews/middle/asset/${assetId}/version/${assetVersion}`;
 
-      // probaj large, pa fallback na middle
       let u = await fetchAsBlobUrl(largeUrl, accessToken);
       if (!u) u = await fetchAsBlobUrl(middleUrl, accessToken);
 
@@ -149,7 +139,6 @@ const AssetPreview = ({ assetId, assetVersion, assetPageCount, assetResourceType
   ]);
 
   const renderContent = () => {
-    // ✅ SECURE modal preview (public)
     if (shouldUseSecurePreview) {
       if (assetResourceType === 'Video' && isModal) {
         if (!secureSrc) {
@@ -168,7 +157,6 @@ const AssetPreview = ({ assetId, assetVersion, assetPageCount, assetResourceType
         );
       }
 
-      // images
       if (hasMultiplePages && isModal) {
         return (
           <div className='assetImageWrapper'>
@@ -214,7 +202,6 @@ const AssetPreview = ({ assetId, assetVersion, assetPageCount, assetResourceType
       );
     }
 
-    // ✅ ORIGINAL BEHAVIOR (non-public ili ne-modal)
     if (assetResourceType === 'Video' && isModal) {
       return (
         <div className="assetVideoWrapper">

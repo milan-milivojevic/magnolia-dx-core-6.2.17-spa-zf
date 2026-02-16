@@ -9,7 +9,6 @@ import filter1Payload from "./payloads/filter1Payload.json";
 export default function Filter1({
   onUpdateSelectedFilter1,
   selectedFilter1 = [],
-  // props iz MpSearch:
   query = "",
   sortingType,
   isAsc,
@@ -28,21 +27,14 @@ export default function Filter1({
 
   const baseUrl = process.env.REACT_APP_MGNL_HOST;
 
-  // helper: ubacimo ostale filtere (ne i Filter1) u payload za count
   const injectActiveFilters = (payload) => {
     if (payload?.criteria?.subs?.[0]?.subs) {
-      // Ako je prvi čvor "or" (match/exact_match), ne diramo strukturu,
-      // samo ćemo dole setovati vrednost query-a gde treba.
     }
-    // Bazični query (u payloadu koji si poslao value je "", ovde punimo stringom)
-    // Ako payload ima match na [0].subs[0] -> value, to ostaje kao i kod vas.
-    // Za sigurnost: pokušamo 2 mesta (match i exact_match).
     try {
       payload.criteria.subs[0].subs[0].value = query ?? "";
       payload.criteria.subs[0].subs[1].value = query ?? "";
     } catch {}
 
-    // Ostali filteri:
     if (selectedCategories?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -74,7 +66,6 @@ export default function Filter1({
         "any": true
       });
     }
-    // Filter2, Filter3 (ali ne Filter1)
     if (selectedFilter2?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -96,7 +87,6 @@ export default function Filter1({
   useEffect(() => {
     (async () => {
       try {
-        // 1) COUNT za customAttribute_439
         const countPayload = JSON.parse(JSON.stringify(filter1Payload));
         injectActiveFilters(countPayload);
 
@@ -112,7 +102,6 @@ export default function Filter1({
         const countsMap = new Map();
         groups.forEach((g) => countsMap.set(+g.group, g.count));
 
-        // 2) Stablo Filter1 (Categories)
         const treeRes = await fetch(`${baseUrl}/rest/mp/v1.0/asset-attributes/439/trees`);
         const treeData = await treeRes.json();
 
@@ -135,7 +124,6 @@ export default function Filter1({
     baseUrl,
   ]);
 
-  // Mapiranje stabla (robustno: pokušamo da pronađemo name/label u EN/DE ili plain)
   const mapTree = (nodes, countsMap) => {
     if (!Array.isArray(nodes)) return [];
     const mapNode = (n) => {
@@ -166,7 +154,6 @@ export default function Filter1({
     return nodes.map(mapNode);
   };
   
-// ✅ helper: apliciraj selekciju na već učitano stablo
 const applySelectionToTree = (nodes, selected) => {
   const sel = new Set((selected || []).map(String));
   const walk = (arr) =>
@@ -178,11 +165,9 @@ const applySelectionToTree = (nodes, selected) => {
     });
   return walk(nodes);
 };
-// ✅ SYNC: kada parent prosledi selectedFilter1 iz linka, ažuriraj čekiranja
 useEffect(() => {
   if (!parents.length) return;
   setParents((prev) => applySelectionToTree(prev, selectedFilter1));
-  // initialParents ostavljamo kakav jeste (služi kao “čista” struktura za Clear All)
 }, [selectedFilter1.join(','), parents.length]);
 
   const extractCheckStates = (items) =>
@@ -363,7 +348,6 @@ useEffect(() => {
     setIsFilterOpen(false);
   };
 
-  // Filter za render
   const filterTree = (items, q) => {
     if (!q) return items;
     const term = q.toLowerCase();

@@ -12,7 +12,7 @@ function RedirectPage ({
 
   const href = linkType === "page" ? page : external;
   console.log("href: " + href)
-  const hrefPage = href ? (getRouterBasename() + href.replace(process.env.REACT_APP_MGNL_APP_BASE, "")).replace("//", "/").replace("Home/Home", "Home") : (getRouterBasename());
+  const hrefPage = href ? (getRouterBasename() + href.replace(process.env.REACT_APP_MGNL_APP_BASE, "")).replace("
   console.log("hrefPage: " + hrefPage)
   React.useEffect(() => {
     if (!editMode && href && linkType === "page") {
@@ -24,7 +24,6 @@ function RedirectPage ({
       events.emit("popstate");
     }
   }, [editMode, href, hrefPage, linkType]);
-
 
   return (
     <>

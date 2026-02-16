@@ -148,7 +148,6 @@ function NavLevelsStyles() {
       });
   }, [apiBase, restPath, nodeName]);
 
-  
   const l1FontSize = configProps?.l1FontSize || "";
   const l1FontFamily = configProps?.l1FontFamily || "";
   const l1TextAlign = configProps?.l1TextAlign || "";

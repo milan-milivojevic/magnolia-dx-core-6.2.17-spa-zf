@@ -118,7 +118,6 @@ function BorderTeaser ({
   noStyles,
 }) {
 
-    
   const baseUrl = process.env.REACT_APP_MGNL_HOST;
   const apiBase = getAPIBase();
   const restPath = process.env.REACT_APP_MGNL_API_PAGES;
@@ -163,7 +162,7 @@ function BorderTeaser ({
 
   const HeadlineLevel = headlineLevel || configProps?.headlineLevel || "h1";  
   const downloadLink = download ? download['@link'] : baseUrl;  
-  const href = linkType === "page" ? (getRouterBasename() + page).replace("//", "/").replace("Home/Home", "Home") : linkType === "external" ? external : downloadLink;
+  const href = linkType === "page" ? (getRouterBasename() + page).replace("
 
   const cursorPointer = clickableComponent === "true" ? "cursorPointer" : configProps?.clickableComponent === "true" ? "cursorPointer" : null;
 

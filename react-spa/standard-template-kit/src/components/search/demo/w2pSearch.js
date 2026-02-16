@@ -36,15 +36,9 @@ function W2PSearch ({
   copyLinkButton,
 }) {
   
-  // const searchParams = new URLSearchParams(window.location.search);
-  // const urlQuery = searchParams.get('q');
-
   const elementRef = useRef(null);
   const baseURL = process.env.REACT_APP_MGNL_APP_HOST; 
   const apiBase = "/cmsAuthor";
-  // const apiBase = getAPIBase();
-  // const isPublic = isPublicInstance();
-  // isPublic ? apiBase.replace("cmsAuthor", "cmsPublic") : apiBase;
   
   const initialSortOrder = sortOrderTemplates ? sortOrderTemplates : "creationDate,desc";
   const splitedSortOrder = initialSortOrder.split(',');
@@ -76,7 +70,6 @@ function W2PSearch ({
     if (encryptedData) {
       decryptedData = decrypt(encryptedData);
       console.log(decryptedData);    }
-
 
     const urlQuery = decryptedData?.query || searchParams.get('query') || "";
     urlQuery && setQuery(urlQuery);
@@ -157,7 +150,6 @@ function W2PSearch ({
     setOffset(0);
     const currentOffset = 0;
     
-
     templatesSearch(query, sortTypeRaw, sortDirectionRaw, size, currentOffset, selectedTemplateType, selectedDetails, selectedTemlateStatus).then((data) => {      
       setProducts([]);
       setProducts(data);      
@@ -213,7 +205,6 @@ function W2PSearch ({
   const toggleListView = () => {
     setView("list");
   };  
-
 
   const encriptionKey = "1e80ccc609380e6ba2e39281ab312faed47c0e0c6b980bce12e1ad417c2a0968"
 

@@ -14,7 +14,6 @@ import AES from 'crypto-js/aes';
 import EncUtf8 from 'crypto-js/enc-utf8';
 import CryptoJS from 'crypto-js';
 
-
 import styled from "styled-components"
 
 const Alert = styled.div`
@@ -42,9 +41,6 @@ function MpSearch ({
   const elementRef = useRef(null);
   const baseURL = process.env.REACT_APP_MGNL_APP_HOST; 
   const apiBase = "/cmsAuthor";
-  // const apiBase = getAPIBase();
-  // const isPublic = isPublicInstance();
-  // isPublic ? apiBase.replace("cmsAuthor", "cmsPublic") : apiBase;
   
   const initialSortOrder = sortOrder ? sortOrder : "uploadDate,false";
   const splitedSortOrder = initialSortOrder.split(",");
@@ -71,7 +67,6 @@ function MpSearch ({
 
   useEffect(() => {
     const searchParams = new URLSearchParams(window.location.search);
-
 
     const encryptedData = decodeURIComponent(searchParams.get('data')) || null;
     console.log(encryptedData);
@@ -140,7 +135,6 @@ function MpSearch ({
     });
   }, [selectedCategories, selectedSuffixes, selectedKeywords, selectedVdbs]);
 
-  // Function to update selectedCategories state
   const updateSelectedCategories = (selectedValues) => {
     setSelectedCategories(selectedValues);
   };
@@ -183,7 +177,6 @@ function MpSearch ({
     setOffset(0);
     const currentOffset = 0;
     
-
     elasticSearch(sortingTypeRaw, isAscRaw, currentOffset, limit, query, selectedCategories, selectedSuffixes, selectedKeywords, selectedVdbs).then((data) => {      
       setProducts([]);
       setProducts(data);      
@@ -217,7 +210,6 @@ function MpSearch ({
 
     return data.items;    
   };    
-
 
   const loadMoreAssets = () => {
     const currentOffset = offset + 25;
@@ -268,7 +260,6 @@ function MpSearch ({
   const encryptedParams = encrypt(paramsObject); 
   const encodedEncryptedParams = encodeURIComponent(encryptedParams);
   const linkPath = `${baseURL}${apiBase}/Home/Search-Pages/MP-Search?data=${encodedEncryptedParams}`;
-
 
     const copyLinkToSearchResult = () => {
     navigator.clipboard.writeText(linkPath)

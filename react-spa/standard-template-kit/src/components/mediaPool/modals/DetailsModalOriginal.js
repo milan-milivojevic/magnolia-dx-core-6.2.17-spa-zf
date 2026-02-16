@@ -11,7 +11,6 @@ import { getAPIBase } from '../../../helpers/AppHelpers';
 import { AiOutlineClose } from "react-icons/ai";
 import { FiDownload, FiLink, FiMail } from "react-icons/fi";
 
-
 const DetailsModal = (props) => {
 
   const {
