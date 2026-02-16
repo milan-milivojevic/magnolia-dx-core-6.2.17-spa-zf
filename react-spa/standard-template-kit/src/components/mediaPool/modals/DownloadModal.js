@@ -4,7 +4,6 @@ import { downloadFileDirect } from '../../../api/searchService';
 import { AiOutlineClose } from "react-icons/ai";
 
 const DownloadModal = ({ assetId, license, isOpen, onClose, closeModal }) => {
-
   const [checkboxChecked, setCheckboxChecked] = useState(false);
 
   const selectedOption = 5;
@@ -14,7 +13,7 @@ const DownloadModal = ({ assetId, license, isOpen, onClose, closeModal }) => {
   const licenseType = license?.licenseHolderName?.value;
   const licenseName = license?.licenseName?.value;
   const restrictions = license?.restrictionOtherText?.value;
-  const usage = (license?.usageExternal?.value === true ? "External " : "") +
+  const usage = (license?.usageInternal?.value === true ? "Internal " : "") +
     (license?.usageExternal?.value === true ? "External " : "") +
     (license?.usageOnline?.value === true ? "Online " : "") +
     (license?.usagePrint?.value === true ? "Print " : "") +
@@ -24,14 +23,13 @@ const DownloadModal = ({ assetId, license, isOpen, onClose, closeModal }) => {
   const downloadFile = async () => {
     const data = await downloadFileDirect(assetId, selectedOption, download_version, language, licenseId);
     if (typeof data[0].download_url !== 'undefined') {
-
       if (isMobileDevice()) {
         openLink(data[0].download_url, '_blank');
       } else {
         openLink(data[0].download_url, '_self');
       }
     }
-  }
+  };
 
   const isMobileDevice = () => {
     return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -51,7 +49,7 @@ const DownloadModal = ({ assetId, license, isOpen, onClose, closeModal }) => {
   const handleDownloadClick = () => {
     if (checkboxChecked) {
       downloadFile();
-      onClose();      
+      onClose();
     }
   };
 
@@ -61,13 +59,13 @@ const DownloadModal = ({ assetId, license, isOpen, onClose, closeModal }) => {
       onRequestClose={closeModal}
       contentLabel="Download Modal"
       className="downloadReactModal"
-    > 
+    >
       <div className='downloadModalWrapper'>
-        <div class="closeButtonWrapper">
+        <div className="closeButtonWrapper">
           <h2 className='titleId'>Assets Requiring License Permission (ID: <span>{assetId}</span>)</h2>
-          <button className="closeButton" onClick={closeModal}><AiOutlineClose/></button>          
+          <button className="closeButton" onClick={closeModal}><AiOutlineClose/></button>
         </div>
-        <div className='downloadModal'>          
+        <div className='downloadModal'>
           <p className='licenseType'>
             <span>License Type:</span> {licenseType}
           </p>
@@ -100,7 +98,7 @@ const DownloadModal = ({ assetId, license, isOpen, onClose, closeModal }) => {
             </button>
           </div>
         </div>
-      </div>      
+      </div>
     </Modal>
   );
 };

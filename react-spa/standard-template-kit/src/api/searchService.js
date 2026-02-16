@@ -2,7 +2,6 @@ import payload from './mpPayload.json'
 import payloadSingleAsset from './mpSingleAssetPayload.json'
 
 const BASE_URL = process.env.REACT_APP_MGNL_APP_HOST;
-console.log("BASE_URL :", BASE_URL);
 
 const apiServiceHandler = async (url, options) => {
   try {
@@ -519,9 +518,6 @@ export const assetRelationsService = async (assetId) => {
       method: 'GET',
     });
 
-    console.log("relationsArray");
-    console.log(relationsArray);
-
     const relationsArrayUniqueIds = relationsArray.relations
       .map(item => item.relatedAssetId)
       .reduce((unique, item) => {
@@ -529,9 +525,6 @@ export const assetRelationsService = async (assetId) => {
       }, []);
 
     const payloadArray = relationsArrayUniqueIds.map(assetId => ({ assetId }));
-
-    console.log("payloadArray");
-    console.log(payloadArray);
 
     const token = await getApiBearerToken();
 
@@ -546,13 +539,10 @@ export const assetRelationsService = async (assetId) => {
 
     const relatedAssets = await response;
 
-    console.log("relatedAssets");
-    console.log(relatedAssets);
-
     return relatedAssets;
 
   } catch (error) {
-    console.error("Asset Relations Service Error" + error);
+    console.error("Asset Relations Service Error: " + error);
     return null;
   }
 };
