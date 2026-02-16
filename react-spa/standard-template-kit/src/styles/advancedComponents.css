@@ -1,4 +1,3 @@
-/* Common Teaser Styles */
 
 .cursorPointer {
   cursor: pointer;
@@ -53,8 +52,6 @@
   width: 100%;
 }
 
-/* Card Teaser Component */
-
 .cardTeaserComponent .image {
   object-fit: cover;
   width: 100%;
@@ -89,14 +86,9 @@
   border-style: none solid solid solid !important;
 }
 
-/* Carousel Teaser Component */
-
 .carouselTeaser .link {
  z-index: 999;
 }
-
-
-/* Carousel Component */
 
 .carouselComponent {
   display: flex;
@@ -166,8 +158,6 @@
   height: 6px;
 }
 
-/* Carousel Divided Component */
-
 .carouselDividedImages {
   display: flex;
   justify-content: space-between;
@@ -177,9 +167,6 @@
   width: 50%;
   max-width: 50%;
 }
-
-
-/* Global Layout Component */
 
 .globalLayoutComponentWrapper.configComponents {
   padding: 40px 0;
@@ -245,8 +232,6 @@
   order: 4;
 }
 
-/* Special Layout Component */
-
 .specialLayoutComponent {
   display: grid;
 }
@@ -271,14 +256,9 @@
   display: grid;
 }
 
-
-/* Accordion */
-
 .accordionWrapper .accordion {
   display: flex;
 }
-
-/* Corporate Identity Colors */
 
 .corporateIdentityColors {
   display: grid;

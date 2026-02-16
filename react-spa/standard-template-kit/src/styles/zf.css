@@ -5,11 +5,7 @@ header {
   position: fixed;
   width: 100%;
   z-index: 99999;
-  /* -ms-box-shadow: 15px 5px 30px 1px rgba(0, 0, 0, 0.31);
-  -o-box-shadow: 15px 5px 30px 1px rgba(0, 0, 0, 0.31);
-  -webkit-box-shadow: 15px 5px 30px 1px rgba(0, 0, 0, 0.31);
-  -moz-box-shadow: 15px 5px 30px 1px rgba(0, 0, 0, 0.31);
-  box-shadow: 15px 5px 30px 1px rgba(0, 0, 0, 0.31);   */
+  
 }
 
 .header {
@@ -97,25 +93,12 @@ input.searchInput:focus {
   color: #fff;
 }
 
-
-
-
-
-
-/* .rightHeader .faqPage a {
-  font-family: AFDiwaBold;
-  line-height: 22px;
-  font-size: 20px;
-  color: #878787;
-} */
-
 .topNav {
   position: relative;
-  /* position: fixed; */
+  
   display: flex;
   align-items: center;
-  /* width: 100%;
-  z-index: 99999;       */
+  
   background-color: #ffffff;  
 }
 
@@ -134,18 +117,9 @@ input.searchInput:focus {
   text-decoration: none;
 }
 
-/* Cheat */
 .menu-item.level-0 > button a {
   font-weight: 700;
 }
-
-
-
-
-
-
-
-
 
 .topNav .menu-item .dropdown-submenu.level-2 {
   display: none;
@@ -162,10 +136,6 @@ input.searchInput:focus {
   background: #fff;
   padding: 30px;
 }
-
-
-
-
 
 .pageContainer {
   position: relative;
@@ -203,18 +173,14 @@ input.searchInput:focus {
   padding: 50px;
 }
 
-
 .leftHandNav .menu-item.level-2.active .dropdown {
   display: block;
 }
-
 
 .mpSearchPage,
 .w2pSearchPage {
   width: 90vw;
 }
-
-
 
 div.linkComponent {
   max-width: 100%;
@@ -248,18 +214,11 @@ ul.footerSection .link {
   line-height: 16px;
 }
 
-/* Bitzet custom li markers */
-
 .description li {
   margin-left: 18px;
   line-height: 1.5;
 }
 
-/* .description ul li {
-  list-style-type: "// ";
-} */
-
-/* Responsive Global */
 @media only screen and (max-width: 1440px) {
 
   .bannerSection .headline {
@@ -287,8 +246,6 @@ ul.footerSection .link {
 
   .mainSection {padding-left: 90px !important;padding-right: 170px !important;}
 
-  
-
   .rightHeader {
     padding-bottom: 12px !important;
   }
@@ -307,17 +264,11 @@ ul.footerSection .link {
     line-height: 20px !important;
   }
 
-  
-
- 
-
   .level-0 > button > a {
     padding-bottom: 24px !important;
     font-size: 18px !important;
     line-height: 18px !important;
   }
-
- 
 
   .leftNavPage .leftHandNav {
     height: calc(100vh - 148px) !important;
@@ -329,16 +280,10 @@ ul.footerSection .link {
   }
 
 }
-/* Mozila Firefox Fixes */
-/* h1 {
-  display: flex;
-} */
-
 
 .description * {
   color: inherit;
 }
-
 
 #zf_table th, #zf_table td {
   padding: 10px 10px;
@@ -358,7 +303,6 @@ ul.footerSection .link {
 #zf_table li::marker {
   font-size: 10px
 }
-
 
 #zf_table li {
   margin-left: 37px;
