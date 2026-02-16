@@ -10,4 +10,3 @@ properties:
   carouselMarginBottom: !include:/standard-template-kit/includes/dialogs/basics/margin/bottom.yaml
   carouselMarginLeft: !include:/standard-template-kit/includes/dialogs/basics/margin/left.yaml
     
-  

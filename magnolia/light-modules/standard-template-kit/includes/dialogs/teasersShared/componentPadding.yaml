@@ -10,4 +10,3 @@ properties:
   componentPaddingBottom: !include:/standard-template-kit/includes/dialogs/basics/padding/bottom.yaml
   componentPaddingLeft: !include:/standard-template-kit/includes/dialogs/basics/padding/left.yaml
     
-  

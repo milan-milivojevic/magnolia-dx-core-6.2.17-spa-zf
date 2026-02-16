@@ -46,13 +46,8 @@ form:
               linkType: !include:/standard-template-kit/includes/dialogs/teasersShared/linkType.yaml
               linkLabel: !include:/standard-template-kit/includes/dialogs/link/label.yaml
           
-          
           linkLocationIconClickable: !include:/standard-template-kit/includes/dialogs/teasersShared/linkLocationIconClickable.yaml
           
-    
-    
-    
-    
   layout:
     $type: tabbedLayout
     tabs:
@@ -85,4 +80,3 @@ form:
           - name: carouselArrowStyles
           - name: carouselIndicatorStyles
          
-        

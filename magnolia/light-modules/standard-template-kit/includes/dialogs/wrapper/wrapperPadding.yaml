@@ -10,4 +10,3 @@ properties:
   wrapperPaddingBottom: !include:/standard-template-kit/includes/dialogs/basics/padding/bottom.yaml
   wrapperPaddingLeft: !include:/standard-template-kit/includes/dialogs/basics/padding/left.yaml
     
-  

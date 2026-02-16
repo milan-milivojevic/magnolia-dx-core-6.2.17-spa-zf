@@ -11,4 +11,3 @@ properties:
     label: Hover Font Color
   titleLineHeight: !include:/standard-template-kit/includes/dialogs/text/includes/lineHeight.yaml
   
-  

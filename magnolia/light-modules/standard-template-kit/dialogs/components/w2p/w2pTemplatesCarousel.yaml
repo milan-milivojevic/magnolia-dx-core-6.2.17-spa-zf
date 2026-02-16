@@ -30,7 +30,6 @@ form:
     titlePaddings: !include:/standard-template-kit/includes/dialogs/mpAsset/titlePaddings.yaml
     navigationId: !include:/standard-template-kit/includes/dialogs/text/includes/navigationId.yaml
 
-      
   layout:
     $type: tabbedLayout
     tabs:

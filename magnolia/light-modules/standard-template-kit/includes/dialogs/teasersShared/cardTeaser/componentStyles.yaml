@@ -10,5 +10,5 @@ properties:
   componentPosition: !include:/standard-template-kit/includes/dialogs/basics/positions/marginPosition.yaml
   componentBoxShadow: 
     label: Change Component Shadow
-    placeholder: "0 9px 8px -12px #111;"
+    placeholder: "0 9px 8px -12px
     $type: textField

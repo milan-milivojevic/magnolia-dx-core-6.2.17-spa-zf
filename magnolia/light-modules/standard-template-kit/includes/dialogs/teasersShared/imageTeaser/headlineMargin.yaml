@@ -10,4 +10,3 @@ properties:
   headlineMarginBottom: !include:/standard-template-kit/includes/dialogs/basics/margin/bottom.yaml
   headlineMarginLeft: !include:/standard-template-kit/includes/dialogs/basics/margin/left.yaml
     
-  

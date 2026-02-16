@@ -10,4 +10,3 @@ properties:
   carouselBorderColor: !include:/standard-template-kit/includes/dialogs/basics/border/color.yaml
   carouselBorderRadius: !include:/standard-template-kit/includes/dialogs/basics/border/radius.yaml
   
-  

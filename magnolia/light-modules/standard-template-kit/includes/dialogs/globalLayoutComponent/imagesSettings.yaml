@@ -12,4 +12,3 @@ properties:
   imagesHorizontalPosition: !include:/standard-template-kit/includes/dialogs/basics/positions/horizontalPosition.yaml
     label: Images Horizontal Position
   
-      
