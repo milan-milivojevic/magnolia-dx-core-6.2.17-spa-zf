@@ -2,19 +2,19 @@
 
 @font-face {
   font-family: ZFPrometeoLight;
-  src: url('../fonts/ZF_Prometo/webfonts/EOT/ZFPrometo_W_Lt.eot');
-  src: url('../fonts/ZF_Prometo/webfonts/EOT/ZFPrometo_W_Lt.eot?#iefix') format('embedded-opentype'),
-  url('../fonts/ZF_Prometo/webfonts/WOFF/ZFPrometo_W_Lt.woff') format('woff'), 
-  url('../fonts/ZF_Prometo/webfonts/WOFF2/ZFPrometo_W_Lt.woff2') format('woff2'),
+  src: url('../fonts/ZF_Prometo/Webfonts/EOT/ZFPrometo_W_Lt.eot');
+  src: url('../fonts/ZF_Prometo/Webfonts/EOT/ZFPrometo_W_Lt.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/ZF_Prometo/Webfonts/WOFF/ZFPrometo_W_Lt.woff') format('woff'), 
+  url('../fonts/ZF_Prometo/Webfonts/WOFF2/ZFPrometo_W_Lt.woff2') format('woff2'),
   url("../fonts/ZF_Prometo/Desktop/ZFPrometo_Lt.ttf") format("truetype");
 }
 
 @font-face {
   font-family: ZFPrometeoMedium;
-  src: url('../fonts/ZF_Prometo/webfonts/EOT/ZFPrometo_W_Md.eot');
-  src: url('../fonts/ZF_Prometo/webfonts/EOT/ZFPrometo_W_Md.eot?#iefix') format('embedded-opentype'),
-  url('../fonts/ZF_Prometo/webfonts/WOFF/ZFPrometo_W_Md.woff') format('woff'), 
-  url('../fonts/ZF_Prometo/webfonts/WOFF2/ZFPrometo_W_Md.woff2') format('woff2'),
+  src: url('../fonts/ZF_Prometo/Webfonts/EOT/ZFPrometo_W_Md.eot');
+  src: url('../fonts/ZF_Prometo/Webfonts/EOT/ZFPrometo_W_Md.eot?#iefix') format('embedded-opentype'),
+  url('../fonts/ZF_Prometo/Webfonts/WOFF/ZFPrometo_W_Md.woff') format('woff'), 
+  url('../fonts/ZF_Prometo/Webfonts/WOFF2/ZFPrometo_W_Md.woff2') format('woff2'),
   url("../fonts/ZF_Prometo/Desktop/ZFPrometo_Md.ttf") format("truetype");
 }
 
