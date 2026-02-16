@@ -9,14 +9,10 @@ import NavLevelsStyles from './styles/navLevels';
 import TopNavStyles from './styles/topNavigation';
 import LeftNavStyles from './styles/leftNavigation';
 import './App.css';
-import { IoLogOutOutline, IoSearchOutline } from 'react-icons/io5';
+import { IoSearchOutline } from 'react-icons/io5';
 import { ReactComponent as SettingsIcon } from './images/home/SettingsIcon.svg';
-import { ReactComponent as SearchIcon } from './images/home/SearchIcon.svg';
 import {
   getAPIBase,
-  getLanguages,
-  getCurrentLanguage,
-  changeLanguage,
   getRouterBasename, 
   events
 } from "./helpers/AppHelpers";
@@ -28,36 +24,17 @@ function App() {
   const isPagesApp = window.location.search.includes("mgnlPreview");
   const editMode = isPagesApp ? "editMode" : "";
   
-  function renderLanguages() {
-    const currentLanguage = getCurrentLanguage();    
-    return (
-      <div className="languages">
-        {getLanguages().map((lang) => (
-          <span
-            key={`lang-${lang}`}
-            data-active={currentLanguage === lang}
-            onClick={() => changeLanguage(lang)}
-          >
-            {lang}
-          </span>
-        ))}
-      </div>
-    );
-  }
-
   const [query, setQuery] = useState("");  
 
   const headerRef = React.useRef(null);  
   const topNavRef = React.useRef(null); 
   const pageRef = React.useRef(null);
 
-  const baseUrl = process.env.REACT_APP_MGNL_HOST; 
   const apiBase = getAPIBase();
   const restPath = process.env.REACT_APP_MGNL_API_PAGES;
   const nodeName = process.env.REACT_APP_MGNL_APP_BASE;  
 
   const [configProps, setConfigProps] = useState();
-  const [userData, setUserData] = useState();
 
   useEffect(() => {
     fetch(`${apiBase}${restPath}${nodeName}/Config-Pages/Main-Config/headerConfigComponent/@nodes`)
@@ -67,12 +44,6 @@ function App() {
         setConfigProps(result);
       });
   }, [apiBase, restPath, nodeName]);
-
-  const [showLogout, setShowLogout] = useState("false");
-
-  useEffect(() => {
-    setShowLogout(configProps?.showLogout)
-  }, [configProps?.showLogout]);
 
   const [pathname, setPathname] = useState(window.location.pathname);
 
