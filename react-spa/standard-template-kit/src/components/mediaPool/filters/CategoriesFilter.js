@@ -9,7 +9,6 @@ import categoriesPayload from './payloads/categoriesPayload.json';
 export default function CategoriesFilter({
   onUpdateSelectedCategories,
   selectedCategories,
-  // props iz MpSearch
   query = "",
   sortingType,
   isAsc,
@@ -29,14 +28,11 @@ export default function CategoriesFilter({
 
   const baseUrl = process.env.REACT_APP_MGNL_HOST;
 
-  // Helper: ubaci aktivne filtere (osim samih Themes) u payload za COUNT
   const injectActiveFilters = (payload) => {
-    // query (match)
     if (payload?.criteria?.subs?.[0]?.value !== undefined) {
       payload.criteria.subs[0].value = query;
     }
 
-    // file suffixes -> extension (text_value)
     if (selectedSuffixes?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -45,7 +41,6 @@ export default function CategoriesFilter({
       });
     }
 
-    // keywords -> structuredKeywords.id
     if (selectedKeywords?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -55,7 +50,6 @@ export default function CategoriesFilter({
       });
     }
 
-    // VDB -> vdb.id (AND sa ostatkom — nije obavezno da bude u istom "and" bloku)
     if (selectedVdbs?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -65,7 +59,6 @@ export default function CategoriesFilter({
       });
     }
 
-    // Filter1 (customAttribute_439.id)
     if (selectedFilter1?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -75,7 +68,6 @@ export default function CategoriesFilter({
       });
     }
 
-    // Filter2 (customAttribute_450.id)
     if (selectedFilter2?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -85,7 +77,6 @@ export default function CategoriesFilter({
       });
     }
 
-    // Filter3 (customAttribute_477.id)
     if (selectedFilter3?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -96,11 +87,9 @@ export default function CategoriesFilter({
     }
   };
 
-  // Dohvatanje hijerarhije (themes) + COUNT po temama, u odnosu na ostale aktivne filtere
   useEffect(() => {
     (async () => {
       try {
-        // 1) COUNT: priprema payload-a (klon)
         const countPayload = JSON.parse(JSON.stringify(categoriesPayload));
         injectActiveFilters(countPayload);
 
@@ -115,19 +104,16 @@ export default function CategoriesFilter({
         const countsMap = new Map();
         groups.forEach(g => countsMap.set(+g.group, g.count));
 
-        // 2) Stablo tema
         const themesRes = await fetch(`${baseUrl}/rest/mp/v1.2/themes`);
         const themesData = await themesRes.json();
 
-        // PROMENA: više NE sortiramo abecedno — zadržavamo redosled iz response-a
-        const transformed = mapThemeTreeToState(themesData, countsMap); // <-- ključno
+        const transformed = mapThemeTreeToState(themesData, countsMap);
         setParents(transformed);
         setInitialParents(transformed);
       } catch (e) {
         console.error('Themes filter error:', e);
       }
     })();
-  // re-fetch na promene relevantnih zavisnosti
   }, [
     query, sortingType, isAsc,
     selectedSuffixes.join(','),
@@ -139,7 +125,6 @@ export default function CategoriesFilter({
     baseUrl
   ]);
 
-  // Mapiramo stablo tema -> naš state (računamo count: direktni + zbir iz dece)
   const mapThemeTreeToState = (items, countsMap) => {
     if (!Array.isArray(items)) return [];
 
@@ -149,7 +134,6 @@ export default function CategoriesFilter({
       const childrenSum = children ? children.reduce((s, c) => s + (c.count || 0), 0) : 0;
       const total = ownCount || childrenSum;
 
-      // label iz EN/DE ako postoji; fallback na n.name ili n.label
       const label =
         (n.name?.EN || n.name?.DE) ??
         (n.label?.EN || n.label?.DE) ??
@@ -168,12 +152,9 @@ export default function CategoriesFilter({
       };
     };
 
-    // VAŽNO: ne diramo redosled — samo mapiramo po istom poretku kako je stiglo iz API-ja
     return items.map(mapNode);
   };
 
-  // (NAPOMENA) Zadržavam funkciju sortItems iz tvoje verzije, ali se više ne koristi.
-  // Ostavio sam je da ne remetim strukturu fajla.
   const sortItems = (arr) => {
     const sortAZ = (a, b) => (a.label || '').localeCompare(b.label || '', 'en', { sensitivity: 'base' });
     const withC = arr.filter(x => (x.count || 0) > 0).sort(sortAZ).map(x => x.children ? { ...x, children: sortItems(x.children) } : x);
@@ -181,7 +162,6 @@ export default function CategoriesFilter({
     return [...withC, ...zeroC];
   };
 
-  // Otvaranje/Zatvaranje i čuvanje stanja prilikom Cancel
   const extractCheckStates = (items) => items.map(i => ({
     isChecked: i.isChecked,
     children: i.children ? extractCheckStates(i.children) : null
@@ -211,7 +191,6 @@ export default function CategoriesFilter({
     } : c)
   } : n));
 
-  // Checkbox toggles (nasleđeno od Themes/Categories logike)
   const toggleParentCheckbox = (id) => setParents(prev => prev.map(p => {
     if (p.id === id) {
       if (p.children?.length) {
@@ -327,7 +306,6 @@ export default function CategoriesFilter({
     setIsFilterOpen(false);
   };
 
-  // Filtriranje za prikaz (ne menja stanje, samo render)
   const filterTree = (items, q) => {
     if (!q) return items;
     const term = q.toLowerCase();
@@ -346,7 +324,6 @@ export default function CategoriesFilter({
 
   return (
     <div className="searchFilter categories">
-      {/* Po tvojoj napomeni: Themes */}
       <Button className="filterButton" onClick={toggleFilter}>Themes</Button>
 
       {isFilterOpen && (
@@ -455,7 +432,6 @@ export default function CategoriesFilter({
                                                 className="filterCheckbox"
                                                 checked={grandchild.isChecked}
                                                 onChange={() => {
-                                                  // pojedinačni unuk toggle
                                                   setParents(prev => prev.map(p => {
                                                     if (p.id !== parent.id) return p;
                                                     p.children = p.children.map(ch => {

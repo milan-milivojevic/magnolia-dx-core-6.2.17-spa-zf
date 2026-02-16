@@ -18,7 +18,6 @@ import CryptoJS from 'crypto-js';
 
 import styled from "styled-components"
 
-// ADD
 import MultiDownloadModalIframe from "../mediaPool/modals/MultiDownloadModalIframe";
 import ClipLoader from "react-spinners/ClipLoader";
 
@@ -77,7 +76,6 @@ function MpSearch ({
   const [selectedFilter2, setSelectedFilter2] = useState([]);
   const [selectedFilter3, setSelectedFilter3] = useState([]);
 
-  // ADD: selekcija i bulk stanje
   const [selectedAssetIds, setSelectedAssetIds] = useState([]);
   const [isBulkSelecting, setIsBulkSelecting] = useState(false);
   const [selectAllChecked, setSelectAllChecked] = useState(false);
@@ -92,20 +90,16 @@ function MpSearch ({
     let decryptedData = undefined;
     if (encryptedData) {
       decryptedData = decryptData(encryptedData);
-     // ✅ NOVO: ukloni nove redove i uvlačenja (ne dira razmake unutar vrednosti)
-     // Ovo sprečava da ključevi postanu "  query" umesto "query"
      const normalized = decryptedData.replace(/[\r\n]\s*/g, '');
      searchParams = new URLSearchParams(normalized);
     }
 
     const urlQuery =  searchParams.get('query') || "";
     urlQuery && setQuery(urlQuery);
-    // ✅ NOVO: isAsc kao pravi boolean
     const urlIsAscRaw = searchParams.get('isAsc');
     if (urlIsAscRaw !== null) {
       setIsAsc(urlIsAscRaw === 'true' || urlIsAscRaw === true);
     }
-    // ✅ NOVO: offset/limit kao brojevi
     const urlOffsetRaw = searchParams.get('offset');
     const urlOffset = urlOffsetRaw !== null ? parseInt(urlOffsetRaw, 10) : 0;
     setOffset(urlOffset);
@@ -193,7 +187,6 @@ function MpSearch ({
     });
   }, [selectedCategories, selectedSuffixes, selectedKeywords, selectedVdbs, selectedFilter1, selectedFilter2, selectedFilter3]);
 
-  // ADD: reset selekcije kad se promeni query ili filteri
   useEffect(() => {
     setSelectedAssetIds([]);
     setSelectAllChecked(false);
@@ -339,7 +332,6 @@ function MpSearch ({
   selectedFilter3=${selectedFilter3}`
 
 
-  // ✅ NOVO: ukloni samo nove redove i uvlačenja pre enkripcije (bez uticaja na razmake u vrednostima)
   const encryptedParams = encryptData(params.replace(/[\r\n]\s*/g, ''));
   const linkPath = `${baseURL}${apiBase}/Home/Search-Pages/MP-Search?data=${encodeURIComponent(encryptedParams)}`;
 
@@ -353,14 +345,12 @@ function MpSearch ({
       })
   };
 
-  // ADD: toggle pojedinačnog aseta
   const toggleSelectAsset = (id) => {
     setSelectedAssetIds(prev =>
       prev.includes(id) ? prev.filter(x => x !== id) : prev.concat(id)
     );
   };
 
-  // ADD: skup svih ID-jeva za tekuću pretragu
   const fetchAllIdsForCurrentSearch = async () => {
     const batch = matches;
     let allIds = [];
@@ -383,7 +373,6 @@ function MpSearch ({
     return Array.from(new Set(allIds));
   };
 
-  // ADD: select all checkbox handler
   const onSelectAllChange = async (e) => {
     const checked = e.target.checked;
     setSelectAllChecked(checked);
@@ -396,7 +385,6 @@ function MpSearch ({
     }
   };
 
-  // ADD: sync selectAllChecked kad se menja lista selekcije
   useEffect(() => {
     if (matches > 0) {
       setSelectAllChecked(selectedAssetIds.length > 0 && selectedAssetIds.length === matches);
@@ -405,7 +393,6 @@ function MpSearch ({
     }
   }, [selectedAssetIds, matches]);
 
-   //Reset all filters
   const resetAllFilters = () => {
     setSelectedCategories([]);
     setSelectedSuffixes([]);    
@@ -418,7 +405,6 @@ function MpSearch ({
     const currentOffset = 0;
     setQuery("");
     onResetGlobalQuery?.();
-    // ADD: reset selekcije
     setSelectedAssetIds([]);
     setSelectAllChecked(false);
     elasticSearch(sortingType, isAsc, currentOffset, limit, "", [], [], [], [], [],  [], []);
@@ -426,7 +412,6 @@ function MpSearch ({
 
   return (
     <div className="mpSearchComponent">
-      {/* ✅ DODATO: lokalni CSS za obojene dugmiće aktivnih filtera + overlay */}
       <style>{`
         .filterWrapper.active .filterButton {
           background-color: #0070b4 !important;
@@ -445,7 +430,6 @@ function MpSearch ({
         }
       `}</style>
 
-      {/* ADD: blokirajući overlay sa spinnerom tokom "Select all" */}
       {isBulkSelecting && (
         <div className="overlayBlocker" aria-busy="true" aria-label="Selecting all assets...">
           <ClipLoader color="#0070b4" />
@@ -471,7 +455,6 @@ function MpSearch ({
           <div className="staticSearch mpSearch">
             <div className="searchFilters">
 
-              {/* ✅ DODATO: wrapper sa 'active' klasom ako postoje selekcije u filteru */}
               <div className={`filterWrapper ${selectedCategories.length ? 'active' : ''}`}>
                 <CategoriesFilter
                   onUpdateSelectedCategories={updateSelectedCategories}
@@ -587,7 +570,6 @@ function MpSearch ({
           <div className="matches">{matches} matches</div>
           <a className="copyLinkToResult" onClick={() => copyLinkToSearchResult()}>COPY LINK TO SEARCH RESULTS <MdOutlineLink /></a>
 
-          {/* ADD: Select all checkbox (desno od copy link) */}
           <label className="downloadSelectAll" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
             <input
               type="checkbox"
@@ -639,7 +621,6 @@ function MpSearch ({
                 fields={c.fields}
                 key={c.fields.id.value}
                 buttonProps={buttonProps}
-                // ADD: selekcija
                 onToggleSelect={toggleSelectAsset}
                 isSelected={selectedAssetIds.includes(c.fields.id.value)}
               />
@@ -657,7 +638,6 @@ function MpSearch ({
         <div className='mpSearchContainer'>No Results</div>
       )}
 
-      {/* ADD: Multi-download modal */}
       {showBulkDownloadModal && (
         <MultiDownloadModalIframe
           isOpen={showBulkDownloadModal}

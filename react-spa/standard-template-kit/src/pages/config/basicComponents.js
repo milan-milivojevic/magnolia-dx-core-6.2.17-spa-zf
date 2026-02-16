@@ -12,8 +12,7 @@ function BasicComponentsConfiguration (props) {
     separationBlockComponents,
     spacerComponents,   
     textComponents,
-    videoComponents,
-    // youtubeComponents 
+    videoComponents
   } = props;
 
   return (
@@ -36,8 +35,6 @@ function BasicComponentsConfiguration (props) {
       <div>{dividerComponents && <EditableArea content={dividerComponents} />}</div>
       <h2 className='titles'>Separation Block Components</h2>
       <div>{separationBlockComponents && <EditableArea content={separationBlockComponents} />}</div>
-      {/* <h2 className='titles'>Youtube Components</h2>
-      <div>{youtubeComponents && <EditableArea content={youtubeComponents} />}</div> */}
     </div>
   );
 }

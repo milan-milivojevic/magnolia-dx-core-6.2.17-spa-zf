@@ -1,11 +1,3 @@
-// src/api/searchService.js
-// Napomena: Ostavio sam sve kao u tvom originalu, a u updateSearchPayload sam dodao podršku za:
-// - Filter1 (customAttribute_439.id)
-// - Filter2 (customAttribute_450.id)
-// - Filter3 (customAttribute_477.id)
-// - precizno ubacivanje VDB filtera u AND blok koji sadrži uslov isVariant == false
-// U komentarima ispod je objašnjeno šta je tačno urađeno.
-
 import payload from './mpPayload.json'
 import payloadSingleAsset from './mpSingleAssetPayload.json'
 
@@ -32,20 +24,9 @@ const apiServiceHandler = async (url, options) => {
 
 export const getApiBearerToken = () => apiServiceHandler(`${BASE_URL}/rest/sso/auth/jaas/jwt`);
 
-/**
- * ✅ DODATO (PUBLIC AUTH) - UPDATE:
- * Public auth mora da važi samo za MpWidgetsSearch, bez globalnog JAAS login-a.
- * Zato:
- *  - NE KORISTIMO sessionStorage (nema globalnog cache-a)
- *  - SVE "public" requestove radimo sa credentials: "omit" (da ne šaljemo/primamo cookies)
- */
-
-// Preporuka: stavi ove vrednosti kao env var u build-u.
-// Ako nisu postavljeni, koristi fallback koji si ti naveo.
 const PUBLIC_LOGIN = process.env.REACT_APP_MP_PUBLIC_LOGIN || "WABCO-Guestuser";
 const PUBLIC_PASSWORD = process.env.REACT_APP_MP_PUBLIC_PASSWORD || "MediaServices@2017Q3!";
 
-// In-memory cache (nije sessionStorage -> ne “curi” kroz app globalno nakon refresh-a)
 let publicTokenCache = null;
 let publicTokenExpiresAt = null;
 
@@ -91,8 +72,6 @@ export const authUserPublic = async (login, password) => {
       },
       body: body.toString(),
 
-      // 🔴 KRITIČNO:
-      // Ne šalji i ne prihvataj cookies -> nema globalnog JAAS login-a
       credentials: "omit",
 
       cache: "no-store"
@@ -102,7 +81,7 @@ export const authUserPublic = async (login, password) => {
       return { error: `Auth failed (${response.status})`, status: response.status };
     }
 
-    const data = await response.json(); // očekujemo { access_token: "..." }
+    const data = await response.json();
     return data;
 
   } catch (error) {
@@ -113,7 +92,6 @@ export const authUserPublic = async (login, password) => {
 
 export const getPublicApiBearerToken = async () => {
   try {
-    // in-memory cache (sa bufferom)
     if (publicTokenCache && publicTokenExpiresAt) {
       const now = Date.now();
       if (now < (publicTokenExpiresAt - 30_000)) {
@@ -125,11 +103,11 @@ export const getPublicApiBearerToken = async () => {
 
     if (tokenDto && tokenDto.access_token) {
       publicTokenCache = tokenDto.access_token;
-      publicTokenExpiresAt = getJwtExpiresAtMs(tokenDto.access_token) || (Date.now() + 15 * 60 * 1000); // fallback 15min
+      publicTokenExpiresAt = getJwtExpiresAtMs(tokenDto.access_token) || (Date.now() + 15 * 60 * 1000);
       return tokenDto;
     }
 
-    return tokenDto; // { error... }
+    return tokenDto;
 
   } catch (e) {
     console.error(e);
@@ -138,7 +116,6 @@ export const getPublicApiBearerToken = async () => {
 };
 
 const paylodID = (assetId) => {
-  // ✅ Duboka kopija da NE mutiramo globalno importovan JSON
   const payloadCopy = JSON.parse(JSON.stringify(payloadSingleAsset));
   payloadCopy.criteria.subs[0].value = '"' + assetId + '"';
   return payloadCopy;
@@ -146,7 +123,6 @@ const paylodID = (assetId) => {
 
 export const idSearch = async (assetId) => {
 
-  // MP zna da dolazi i M- prefiks, pa ga skidamo (tvoj postojeći kod)
   assetId = assetId.startsWith("M-") ? assetId.substring(2) : assetId;
   assetId = assetId.startsWith("m-") ? assetId.substring(2) : assetId;
 
@@ -205,7 +181,6 @@ export const downloadFileDirect = async (id, selectedOption, download_version, l
 
 
 const updateCustomSearchPayload = (requestPayload, sortingType, isAsc, offset, limit) => {
-  // ✅ pravimo privatnu kopiju kako ne bismo mutirali izvorni objekat koji je možda deljen
   const updatedPayload = JSON.parse(JSON.stringify(requestPayload));
 
   if (sortingType !== null) {
@@ -242,17 +217,6 @@ export const customSearch = async (requestPayload, sortingType, isAsc, offset, l
 }
 
 
-/**
- * updateSearchPayload
- * - Prilagođeno da podrži:
- *   • Categories      -> themes.id                    (long_value, any: true)
- *   • File Info       -> extension                    (text_value)
- *   • Keywords        -> structuredKeywords.id        (long_value, any: true)
- *   • VDB             -> vdb.id (u AND bloku sa isVariant == false)
- *   • Filter1         -> customAttribute_439.id       (long_value, any: true)
- *   • Filter2         -> customAttribute_450.id       (long_value, any: true)
- *   • Filter3         -> customAttribute_477.id       (long_value, any: true)
- */
 const updateSearchPayload = (
   sortingType,
   isAsc,
@@ -268,22 +232,18 @@ const updateSearchPayload = (
   selectedFilter3
 ) => {
 
-  // 1) Sorting + paging
   const sortingObject = sortingType === 'relevance'
     ? [{ "@type": sortingType, "asc": isAsc }]
     : [{ "@type": "field", "field": sortingType, "asc": isAsc }];
 
-  // ✅ Duboka kopija šablona kako bismo izbegli deljenje referenci između instanci
   const updatedPayload = JSON.parse(JSON.stringify(payload));
 
   updatedPayload.output.sorting = sortingObject;
   const pagingObject = { "@type": "offset", "offset": offset, "limit": limit };
   updatedPayload.output.paging = pagingObject;
 
-  // 2) Upis query vrednosti (zadržavam tvoju logiku sa navodnicima)
   updatedPayload.criteria.subs[0].value = '"' + query + '"';
 
-  // 3) Categories -> themes.id (ugrađuje/menja/uklanja postojeći IN blok)
   const categoriesIndex = updatedPayload.criteria.subs.findIndex(
     sub => sub["@type"] === "in" && sub.fields && sub.fields.includes("themes.id")
   );
@@ -303,7 +263,6 @@ const updateSearchPayload = (
     updatedPayload.criteria.subs.splice(categoriesIndex, 1);
   }
 
-  // 4) File Info -> extension
   const fileInfoIndex = updatedPayload.criteria.subs.findIndex(
     sub => sub["@type"] === "in" && sub.fields && sub.fields.includes("extension")
   );
@@ -323,7 +282,6 @@ const updateSearchPayload = (
     updatedPayload.criteria.subs.splice(fileInfoIndex, 1);
   }
 
-  // 5) Keywords -> structuredKeywords.id
   const keywordsIndex = updatedPayload.criteria.subs.findIndex(
     sub => sub["@type"] === "in" && sub.fields && sub.fields.includes("structuredKeywords.id")
   );
@@ -343,7 +301,6 @@ const updateSearchPayload = (
     updatedPayload.criteria.subs.splice(keywordsIndex, 1);
   }
 
-  // 6) VDB -> vdb.id (u AND bloku sa isVariant == false)
   const andBlockIndex = updatedPayload.criteria.subs.findIndex(
     sub =>
       sub["@type"] === "and" &&
@@ -375,7 +332,6 @@ const updateSearchPayload = (
     }
   }
 
-  // 7) Filter1 -> customAttribute_439.id
   const f1Index = updatedPayload.criteria.subs.findIndex(
     sub => sub["@type"] === "in" && sub.fields && sub.fields.includes("customAttribute_439.id")
   );
@@ -395,7 +351,6 @@ const updateSearchPayload = (
     updatedPayload.criteria.subs.splice(f1Index, 1);
   }
 
-  // 8) Filter2 -> customAttribute_450.id
   const f2Index = updatedPayload.criteria.subs.findIndex(
     sub => sub["@type"] === "in" && sub.fields && sub.fields.includes("customAttribute_450.id")
   );
@@ -415,7 +370,6 @@ const updateSearchPayload = (
     updatedPayload.criteria.subs.splice(f2Index, 1);
   }
 
-  // 9) Filter3 -> customAttribute_477.id
   const f3Index = updatedPayload.criteria.subs.findIndex(
     sub => sub["@type"] === "in" && sub.fields && sub.fields.includes("customAttribute_477.id")
   );
@@ -451,7 +405,7 @@ export const elasticSearchService = async (
   selectedFilter1,
   selectedFilter2,
   selectedFilter3,
-  usePublicAuth = false // ✅ ako true -> koristi /rest/sso/auth (cookie-less) + guest creds
+  usePublicAuth = false
 ) => {
 
   const updatedPayload = updateSearchPayload(
@@ -479,7 +433,6 @@ export const elasticSearchService = async (
     },
     body: JSON.stringify(updatedPayload),
 
-    // 🔴 KRITIČNO: kad je public auth, ne šalji/primaj cookies => nema globalnog login-a
     ...(usePublicAuth ? { credentials: "omit" } : {})
   })
 
@@ -501,7 +454,7 @@ export const querySearch = async (
   selectedFilter1,
   selectedFilter2,
   selectedFilter3,
-  usePublicAuth = false // ✅ isti princip kao elasticSearchService
+  usePublicAuth = false
 ) => {
 
   const updatedPayload = updateSearchPayload(
@@ -529,7 +482,6 @@ export const querySearch = async (
     },
     body: JSON.stringify(updatedPayload),
 
-    // 🔴 KRITIČNO: kad je public auth, ne šalji/primaj cookies => nema globalnog login-a
     ...(usePublicAuth ? { credentials: "omit" } : {})
   })
 
@@ -571,10 +523,10 @@ export const assetRelationsService = async (assetId) => {
     console.log(relationsArray);
 
     const relationsArrayUniqueIds = relationsArray.relations
-      .map(item => item.relatedAssetId) // izdvajamo samo relatedAssetId
+      .map(item => item.relatedAssetId)
       .reduce((unique, item) => {
         return unique.includes(item) ? unique : [...unique, item];
-      }, []); // uklanjamo duplikate
+      }, []);
 
     const payloadArray = relationsArrayUniqueIds.map(assetId => ({ assetId }));
 
@@ -606,9 +558,3 @@ export const assetRelationsService = async (assetId) => {
 };
 
 
-// export const getApiBearerToken = () => apiServiceHandler(`${BASE_URL}/rest/sso/auth/jaas/jwt`);
-// const token = await getApiBearerToken();
-// headers: {
-//   "Authorization": `Bearer ${token.access_token}`,
-//   "Content-Type": "application/json"
-// },
