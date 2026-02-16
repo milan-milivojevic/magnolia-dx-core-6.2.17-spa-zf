@@ -15,7 +15,6 @@ import Filter1 from "../mediaPool/filters/Filter1";
 import Filter2 from "../mediaPool/filters/Filter2";
 import Filter3 from "../mediaPool/filters/Filter3";
 
-// ADD
 import MultiDownloadModalIframe from "./modals/MultiDownloadModalIframe";
 import ClipLoader from "react-spinners/ClipLoader";
 
@@ -41,7 +40,7 @@ function MpWidgetsSearch({
   titlePaddingLeft,
   titlePaddingRight,
   navigationId,
-  isPublic // ✅ DODATO
+  isPublic
 }) {
   const initialSortOrder = sortOrder ? sortOrder : "uploadDate,false";
   const splitedSortOrder = initialSortOrder.split(",");
@@ -69,12 +68,10 @@ function MpWidgetsSearch({
   const [selectedFilter2, setSelectedFilter2] = useState([]);
   const [selectedFilter3, setSelectedFilter3] = useState([]);
 
-  // ADD: selekcija i bulk stanje
   const [selectedAssetIds, setSelectedAssetIds] = useState([]);
   const [isBulkSelecting, setIsBulkSelecting] = useState(false);
   const [showBulkDownloadModal, setShowBulkDownloadModal] = useState(false);
 
-  // ADD
   const [isInitialLoading, setIsInitialLoading] = useState(true);
   const [isLoadingMore, setIsLoadingMore] = useState(false);
   const [searchError, setSearchError] = useState(null);
@@ -89,7 +86,6 @@ function MpWidgetsSearch({
   const showFilter2        = toBool(widgets?.assetTypeFilter, true);
   const showFilter3        = toBool(widgets?.assetGroupFilter, true);
 
-  // ✅ DODATO: isPublic može doći kao boolean ili string "true"
   const isPublicMode = toBool(isPublic, false);
 
   const baseUrl = process.env.REACT_APP_MGNL_APP_HOST;
@@ -157,7 +153,7 @@ function MpWidgetsSearch({
       sortingTypeArg, isAscArg, offsetArg, limitArg, queryArg,
       selectedCategoriesArg, selectedSuffixesArg, selectedKeywordsArg,
       selectedVdbsArg, selectedFilter1Arg, selectedFilter2Arg, selectedFilter3Arg,
-      usePublicAuth // ✅ DODATO: koristi /rest/sso/auth + guest creds ako je public
+      usePublicAuth
     );
 
     if (data && data.error) {
@@ -321,7 +317,7 @@ function MpWidgetsSearch({
       setIsLinkInitDone(true);
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [linkToSearchResult, sortOrder, cardsLimit, defaultView, perRow, usePublicAuth, isUserLoaded]); // ✅ DODATO isPublicMode
+  }, [linkToSearchResult, sortOrder, cardsLimit, defaultView, perRow, usePublicAuth, isUserLoaded]);
 
   useEffect(() => {
     if (!isUserLoaded && !isPublicMode) {
@@ -348,7 +344,7 @@ function MpWidgetsSearch({
     selectedFilter3.join(","),
     usePublicAuth,
     isUserLoaded,
-    isPublicMode // ✅ DODATO
+    isPublicMode
   ]);
 
   const updateSelectedCategories = (vals) => setSelectedCategories(vals);
@@ -373,7 +369,6 @@ function MpWidgetsSearch({
     paddingLeft: titlePaddingLeft || null
   };
 
-  // ADD: toggle pojedinačnog aseta
   const toggleSelectAsset = (id) => {
     setSelectedAssetIds(prev =>
       prev.includes(id) ? prev.filter(x => x !== id) : prev.concat(id)
@@ -382,7 +377,6 @@ function MpWidgetsSearch({
 
   return (
     <div className='mpSearchComponent widgetSearch' id={navigationId && navigationId}>
-      {/* ✅ DODATO: lokalna CSS pravila za aktivne filter dugmiće */}
       <style>{`
         .filterWrapper.active .filterButton {
           background-color: #0070b4 !important;
@@ -401,7 +395,6 @@ function MpWidgetsSearch({
         }
       `}</style>
 
-      {/* ADD: blokirajući overlay sa spinnerom tokom eventualnih bulk operacija */}
       {isBulkSelecting && (
         <div className="overlayBlocker" aria-busy="true" aria-label="Selecting all assets...">
           <ClipLoader color="#0070b4" />
@@ -414,7 +407,6 @@ function MpWidgetsSearch({
         </TitleLevel>
       }
 
-      {/* ADD: selectionSummary umesto filtera kada postoji selekcija */}
       {selectedAssetIds.length > 0 ? (
         <div className="selectionSummary" style={{ width: '100%', padding: '0px 40px 20px 40px', display: 'flex', gap: '20px', justifyContent: 'left', alignItems: 'center' }}>
           <div className="infoDownloadSelected">{selectedAssetIds.length} {selectedAssetIds.length === 1 ?  'item' : 'items'} selected</div>
@@ -429,7 +421,6 @@ function MpWidgetsSearch({
               Download
             </button>
           </div>
-          {/* ADD: Deselect all checkbox (cekiran kada postoji selekcija) */}
           <label className="downloadSelectAll" style={{ display: 'inline-flex', alignItems: 'center', gap: 6 }}>
             <input
               type="checkbox"
@@ -458,7 +449,6 @@ function MpWidgetsSearch({
             </div>
 
             {showThemesFilter && (
-              // ✅ DODATO: wrapper sa aktivnom klasom
               <div className={`filterWrapper ${selectedCategories.length ? 'active' : ''}`}>
                 <CategoriesFilter
                   onUpdateSelectedCategories={updateSelectedCategories}
@@ -599,7 +589,6 @@ function MpWidgetsSearch({
                 fields={c.fields}
                 key={c.fields.id.value}
                 buttonProps={buttonProps}
-                // ADD: selekcija
                 onToggleSelect={toggleSelectAsset}
                 isSelected={selectedAssetIds.includes(c.fields.id.value)}
                 usePublicAuth={usePublicAuth} 
@@ -616,7 +605,6 @@ function MpWidgetsSearch({
         <div className='mpSearchContainer'>No Results</div>
       )))}
 
-      {/* ADD: Multi-download modal */}
       {showBulkDownloadModal && (
         <MultiDownloadModalIframe
           isOpen={showBulkDownloadModal}
