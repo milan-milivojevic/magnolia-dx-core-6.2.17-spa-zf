@@ -41,7 +41,7 @@
     "eject": "react-scripts eject",
     "build:mgnl": "npm run clean && env-cmd -f .env.mgnl react-scripts build",
     "deploy:mgnl": "npm run build:mgnl && copyfiles -u 1 \"build/**/*\" ../../magnolia/light-modules/standard-template-kit/webresources/build",
-    "clean": "rimraf build && rimraf ../../magnolia/light-modules/standard-template-kit/webresources/build"
+    "clean": "npx rimraf build && npx rimraf ../../magnolia/light-modules/standard-template-kit/webresources/build"
   },
   "eslintConfig": {
     "extends": "react-app"
