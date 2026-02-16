@@ -24,7 +24,7 @@ const Card = ({ fields, buttonProps, onToggleSelect, isSelected, usePublicAuth =
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [isImgHovered, setIsImgHovered] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [message, setMesage] = useState("");
+  const [message, setMessage] = useState("");
 
   const assetId = fields.id.value;
   const assetVersionCount = fields.versionCount.value - 1;
@@ -127,7 +127,7 @@ const Card = ({ fields, buttonProps, onToggleSelect, isSelected, usePublicAuth =
 
   const showAlertAfterDownload = () => {
     setShowAlert(true);
-    setMesage("Download Started");
+    setMessage("Download Started");
     setTimeout(() => {
       setShowAlert(false);
     }, 2500);
@@ -138,7 +138,7 @@ const Card = ({ fields, buttonProps, onToggleSelect, isSelected, usePublicAuth =
     setIsImgHovered(false);
     if (showEmailModal) {
       setShowAlert(true);
-      setMesage("Email Sent");
+      setMessage("Email Sent");
       setTimeout(() => {
         setShowAlert(false);
       }, 2500);
@@ -159,7 +159,7 @@ const Card = ({ fields, buttonProps, onToggleSelect, isSelected, usePublicAuth =
     navigator.clipboard.writeText(internalLinkPath)
       .then(() => {
         setShowAlert(true);
-        setMesage("Link Copied");
+        setMessage("Link Copied");
         setTimeout(() => {
           setShowAlert(false);
         }, 2500);
@@ -172,7 +172,7 @@ const Card = ({ fields, buttonProps, onToggleSelect, isSelected, usePublicAuth =
     navigator.clipboard.writeText(exernalLinkPath)
       .then(() => {
         setShowAlert(true);
-        setMesage("Link Copied");
+        setMessage("Link Copied");
         setTimeout(() => {
           setShowAlert(false);
         }, 2500);

@@ -40,7 +40,7 @@ const DetailsModal = (props) => {
   const [showDownloadModal, setShowDownloadModal] = useState(false);
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [message, setMesage] = useState("");
+  const [message, setMessage] = useState("");
   const [assetVersions, setAssetVersions] = useState([]);
   const [assetVariants, setAssetVariants] = useState([]);
   const [relatedAssets, setRelatedAssets] = useState([]);
@@ -78,7 +78,7 @@ const DetailsModal = (props) => {
     navigator.clipboard.writeText(internalLinkPath)
       .then(() => {
         setShowAlert(true);
-        setMesage("Link Copied");
+        setMessage("Link Copied");
         setTimeout(() => {
           setShowAlert(false);
         }, 2500);
@@ -91,7 +91,7 @@ const DetailsModal = (props) => {
     navigator.clipboard.writeText(exernalLinkPath)
       .then(() => {
         setShowAlert(true);
-        setMesage("Link Copied");
+        setMessage("Link Copied");
         setTimeout(() => {
           setShowAlert(false);
         }, 2500);
