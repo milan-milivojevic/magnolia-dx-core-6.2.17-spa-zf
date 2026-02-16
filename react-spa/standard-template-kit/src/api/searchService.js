@@ -145,25 +145,8 @@ export const idSearch = async (assetId) => {
 }
 
 
-export const downloadFileDirect = async (id, selectedOption, download_version, language, licenseId, usePublicAuth = false) => {
-  const token = usePublicAuth ? await getPublicApiBearerToken() : await getApiBearerToken();
-
-  if (!token || !token.access_token) {
-    return { error: "Missing access token" };
-  }
-
-  const requestItem = {
-    asset: { id: id },
-    download_scheme: { id: selectedOption },
-    download_version: download_version,
-    language: language
-  };
-
-  if (licenseId) {
-    requestItem.license_confirmation = {
-      license: { id: licenseId }
-    };
-  }
+export const downloadFileDirect = async (id, selectedOption, download_version, language, licenseId = false) => {
+  const token = await getApiBearerToken();
 
   const response = apiServiceHandler(`${BASE_URL}/rest/mp/v1.0/assets/downloadLinks/direct`, {
     method: 'POST',
@@ -171,9 +154,18 @@ export const downloadFileDirect = async (id, selectedOption, download_version, l
       "Authorization": `Bearer ${token.access_token}`,
       'Content-Type': 'application/json'
     },
-    credentials: usePublicAuth ? "omit" : "include",
-    body: JSON.stringify([requestItem])
-  });
+    body: JSON.stringify([
+      {
+        asset: { id: id },
+        download_scheme: { id: selectedOption },
+        download_version: download_version,
+        language: language,
+        license_confirmation: {
+          license: { id: licenseId && licenseId }
+        },
+      },
+    ]),
+  })
 
   const data = await response;
   return data;

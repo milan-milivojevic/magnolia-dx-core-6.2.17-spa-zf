@@ -187,7 +187,7 @@ const DetailsModal = (props) => {
           <div className='detailsModal'>
             <div className='detailsModalOptions'>
               {activeTab === 'preview' && (
-                <AssetPreview assetId={assetId} assetVersion={assetVersion} assetPageCount={assetPageCount} assetResourceType={assetResourceType} isModal={true} usePublicAuth={usePublicAuth}/>
+                <AssetPreview assetId={assetId} assetVersion={assetVersion} assetPageCount={assetPageCount} assetResourceType={assetResourceType} isModal={true} sePublicAuth={usePublicAuth}u/>
               )}
               {activeTab === 'versions' && (
                 <div className='assetVersions list'>

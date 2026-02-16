@@ -4,7 +4,6 @@ import EmailModal from '../modals/EmailModal';
 import DetailsModal from '../modals/DetailsModal';
 import { FiDownload, FiLink, FiMail } from "react-icons/fi";
 import { GoPlusCircle, GoCheckCircleFill } from "react-icons/go";
-import { FaRegCircleCheck, FaCirclePlus } from "react-icons/fa6";
 import { GrZoomIn } from "react-icons/gr";
 import { downloadFileDirect } from '../../../api/searchService';
 import { getAPIBase } from '../../../helpers/AppHelpers';
