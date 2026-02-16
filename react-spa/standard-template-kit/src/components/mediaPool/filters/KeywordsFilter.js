@@ -4,13 +4,11 @@ import FormControlLabel from '@mui/material/FormControlLabel';
 import Button from '@mui/material/Button';
 import keywordsPayload from './payloads/keywordsPayload.json';
 import { AiOutlineClose } from "react-icons/ai";
-// ✅ DODATO: ClipLoader za loading spinner
 import { ClipLoader } from "react-spinners";
 
 export default function KeywordsFilter({
   onUpdateSelectedKeywords,
   selectedKeywords,
-  // props iz MpSearch
   query = "",
   sortingType,
   isAsc,
@@ -27,18 +25,15 @@ export default function KeywordsFilter({
   const [isFilterOpen, setIsFilterOpen] = useState(false);
   const [filterValue, setFilterValue] = useState('');
   const [tempParents, setTempParents] = useState([]);
-  // ✅ DODATO: loading state
   const [isLoading, setIsLoading] = useState(false);
 
   const baseUrl = process.env.REACT_APP_MGNL_HOST;
 
   const injectActiveFilters = (payload) => {
-    // query
     if (payload?.criteria?.subs?.[0]?.value !== undefined) {
       payload.criteria.subs[0].value = query;
     }
 
-    // categories
     if (selectedCategories?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -48,7 +43,6 @@ export default function KeywordsFilter({
       });
     }
 
-    // file suffixes
     if (selectedSuffixes?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -57,7 +51,6 @@ export default function KeywordsFilter({
       });
     }
 
-    // vdb
     if (selectedVdbs?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -67,7 +60,6 @@ export default function KeywordsFilter({
       });
     }
 
-    // Filter1-3
     if (selectedFilter1?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -97,10 +89,8 @@ export default function KeywordsFilter({
   useEffect(() => {
     (async () => {
       try {
-        // ✅ DODATO: uključi loading pre fetch-a
         setIsLoading(true);
 
-        // 1) COUNT po keywords-u
         const countPayload = JSON.parse(JSON.stringify(keywordsPayload));
         injectActiveFilters(countPayload);
 
@@ -115,7 +105,6 @@ export default function KeywordsFilter({
         const countsMap = new Map();
         groups.forEach(g => countsMap.set(+g.group, g.count));
 
-        // 2) Full lista keywords-a
         const kwRes = await fetch(`${baseUrl}/rest/mp/v1.2/keywords`);  
         const kwData = await kwRes.json();
 
@@ -127,7 +116,6 @@ export default function KeywordsFilter({
           isChecked: selectedKeywords?.includes(String(item.id))
         }));
 
-        // 🔽 NOVO: sortiranje po COUNT (opadajuće) + stabilan poredak
         const final = mapped
           .map((m, idx) => ({ ...m, __i: idx }))
           .sort((a, b) => {
@@ -141,7 +129,6 @@ export default function KeywordsFilter({
       } catch (e) {
         console.error('Keywords filter error:', e);
       } finally {
-        // ✅ DODATO: ugasi loading bez obzira na ishod
         setIsLoading(false);
       }
     })();
@@ -160,8 +147,6 @@ export default function KeywordsFilter({
     if (!isFilterOpen) {
       const temp = parents.map(p => p.isChecked);
       setTempParents(temp);
-      // (opciono) ako želiš da prikaže spiner i kada je lista još prazna:
-      // if (!parents.length) setIsLoading(true);
     }
     setIsFilterOpen(!isFilterOpen);
   };
@@ -208,7 +193,6 @@ export default function KeywordsFilter({
           </div>
 
           <div className="checkboxFormWrapper" key={parents.map(c => c.isChecked).join('-')}>
-            {/* ✅ DODATO: spinner unutar wrapper-a dok traje učitavanje */}
             {isLoading ? (
               <div style={{ width: '100%', display: 'flex', justifyContent: 'center', padding: '24px 0' }}>
                 <ClipLoader color="#0070b4" />

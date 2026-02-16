@@ -9,7 +9,6 @@ import fileInfoFilterPayload from './payloads/fileInfoFilterPayload.json';
 export default function FileInfoFilter({
   onUpdateSelectedSuffixes,
   selectedSuffixes,
-  // props iz MpSearch
   query = "",
   sortingType,
   isAsc,
@@ -29,12 +28,10 @@ export default function FileInfoFilter({
   const baseUrl = process.env.REACT_APP_MGNL_HOST;
 
   const injectActiveFilters = (payload) => {
-    // query
     if (payload?.criteria?.subs?.[0]?.value !== undefined) {
       payload.criteria.subs[0].value = query;
     }
 
-    // categories -> themes.id
     if (selectedCategories?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -44,7 +41,6 @@ export default function FileInfoFilter({
       });
     }
 
-    // keywords -> structuredKeywords.id
     if (selectedKeywords?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -54,7 +50,6 @@ export default function FileInfoFilter({
       });
     }
 
-    // vdb
     if (selectedVdbs?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -64,7 +59,6 @@ export default function FileInfoFilter({
       });
     }
 
-    // Filter1-3
     if (selectedFilter1?.length) {
       payload.criteria.subs.push({
         "@type": "in",
@@ -94,7 +88,6 @@ export default function FileInfoFilter({
   useEffect(() => {
     (async () => {
       try {
-        // 1) COUNT po suffix-u
         const countPayload = JSON.parse(JSON.stringify(fileInfoFilterPayload));
         injectActiveFilters(countPayload);
 
@@ -113,7 +106,6 @@ export default function FileInfoFilter({
         const countsMap = new Map();
         countGroups.forEach(g => countsMap.set(g.group, g.count));
 
-        // 2) Lista suffix-a po grupama
         const suffixRes = await fetch(`${baseUrl}/rest/mp/v1.1/suffixes`);
         const suffixData = await suffixRes.json();
 
@@ -136,13 +128,7 @@ export default function FileInfoFilter({
   ]);
 
   const mapAndSort = (data, countsMap) => {
-    // VAŽNO: po zahtevu – ukidamo abecedno sortiranje.
-    // Zadržavamo tačno redosled kako stiže iz API response-a,
-    // i za roditeljske grupe (parents) i za decu (suffixes).
-    // Ostatak logike (računanje count-a, toggle, apply, itd.) ostaje isti.
-
     const mapParent = (item) => {
-      // decu mapiramo REDOM kako su stigla (bez .sort)
       const children = (item.suffixes || []).map((suffix, i) => {
         const cnt = countsMap.get(suffix) || 0;
         return {
@@ -154,10 +140,8 @@ export default function FileInfoFilter({
         };
       });
 
-      // sumiramo count bez menjanja redosleda
       const sumCount = children.reduce((s, c) => s + (c.count || 0), 0);
 
-      // parent takođe ostaje u originalnom redosledu (bez sortiranja)
       return {
         id: item.name,
         label: item.label,
@@ -167,7 +151,6 @@ export default function FileInfoFilter({
       };
     };
 
-    // i lista roditelja ide u originalnom redosledu response-a
     const parentsMapped = data.map(mapParent);
     return parentsMapped;
   };
