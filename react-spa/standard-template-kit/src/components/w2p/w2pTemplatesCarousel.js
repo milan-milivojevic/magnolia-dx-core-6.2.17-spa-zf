@@ -48,7 +48,7 @@ function W2PTemplatesCarousel({
   
   const settings = {
     
-    slidesToShow: slidesToShow || 5, // 
+    slidesToShow: slidesToShow || 5,
     slidesToScroll: slidesToScroll || 1,
     speed: 500,
     autoplay: autoplay === "false" ? false : true,
@@ -60,14 +60,14 @@ function W2PTemplatesCarousel({
         breakpoint: 1440,
         settings: {
           slidesToShow: 4,
-          slidesToScroll: 1, // Na manjim ekranima prikazuje samo 1 aset istovremeno
+          slidesToScroll: 1,
         },
       },
       {
         breakpoint: 768,
         settings: {
           slidesToShow: 1,
-          slidesToScroll: 1, // Na manjim ekranima prikazuje samo 1 aset istovremeno
+          slidesToScroll: 1,
         },
       },
     ],
@@ -78,7 +78,6 @@ function W2PTemplatesCarousel({
 
   const resetTransform = () => {
     var interval = setInterval(() => {
-      // Delay the transformation to give react-slick time to update
       const slickList = sliderRef.current.innerSlider.list;
       if (slickList) {
         const slickTrack = slickList.querySelector('.slick-track');
