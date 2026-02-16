@@ -14,7 +14,6 @@ import moment from "moment";
 
 
 const Card = ({ fields, buttonProps, onToggleSelect, isSelected, usePublicAuth = false }) => {
-
   const { downloadButton, emailButton, detailsButton, copyLinkButton } = buttonProps;
 
   const isDownloadButton = downloadButton === "true";
@@ -27,26 +26,26 @@ const Card = ({ fields, buttonProps, onToggleSelect, isSelected, usePublicAuth =
   const [showEmailModal, setShowEmailModal] = useState(false);
   const [isImgHovered, setIsImgHovered] = useState(false);
   const [showAlert, setShowAlert] = useState(false);
-  const [message, setMesage] = useState("");  
-  
+  const [message, setMesage] = useState("");
+
   const assetId = fields.id.value;
   const assetVersionCount = fields.versionCount.value - 1;
   const assetVersion = fields.versions.items[assetVersionCount].fields.versionNumber.value;
-  const assetPageCount = fields.currentVersion.fields.fileResource.fields.pageCount.value
-  const assetResourceType = fields.currentVersion.fields.fileResource.fields.fileResourceTypeName.value
+  const assetPageCount = fields.currentVersion.fields.fileResource.fields.pageCount.value;
+  const assetResourceType = fields.currentVersion.fields.fileResource.fields.fileResourceTypeName.value;
   const selectedOption = 5;
   const language = 'en';
   const download_version = 'FIXED';
-  
-  var title = fields.title.value;
+
+  let title = fields.title.value;
   const description = fields.description?.value || null;
-  var lastUpdatedTime = fields.lastUpdatedTime.value;
-  var uploadDate = fields.uploadDate.value;
-  var owner = fields.owner.fields.formattedFullName.value;
+  let lastUpdatedTime = fields.lastUpdatedTime.value;
+  let uploadDate = fields.uploadDate.value;
+  let owner = fields.owner.fields.formattedFullName.value;
   const vdb = fields.vdb.fields.name.value;
-  var fileFormat = fields.currentVersion.fields.fileResource.fields.extension.value;
+  let fileFormat = fields.currentVersion.fields.fileResource.fields.extension.value;
   const fileSize = fields.currentVersion.fields.fileResource.fields.fileSize.value + ' KB';
-  var keywords = fields.keywords?.items || null;
+  let keywords = fields.keywords?.items || null;
   const linkToW2P = fields.customAttribute_126?.fields.value.value;
   const license = fields.license || null;
 
@@ -93,8 +92,8 @@ const Card = ({ fields, buttonProps, onToggleSelect, isSelected, usePublicAuth =
   const toggleDetailsModal = () => {
     setShowDetailsModal(!showDetailsModal);
     setIsImgHovered(false);
-  }
-  
+  };
+
   const isMobileDevice = () => {
     return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
   };
@@ -107,26 +106,25 @@ const Card = ({ fields, buttonProps, onToggleSelect, isSelected, usePublicAuth =
   };
 
   const downloadFile = async () => {
-
     const data = await downloadFileDirect(assetId, selectedOption, download_version, language, null);
 
-    if (typeof data[0].download_url !== 'undefined') {          
+    if (typeof data[0].download_url !== 'undefined') {
       if (isMobileDevice()) {
         openLink(data[0].download_url, '_blank');
       } else {
         openLink(data[0].download_url, '_self');
       }
     }
-  }   
+  };
 
   const toggleDownloadModal = () => {
-    setShowDownloadModal(!showDownloadModal);    
-  }
+    setShowDownloadModal(!showDownloadModal);
+  };
 
   const closeDownloadModal = () => {
     setShowDownloadModal(false);
     setIsImgHovered(false);
-  }
+  };
 
   const showAlertAfterDownload = () => {
     setShowAlert(true);
@@ -134,7 +132,7 @@ const Card = ({ fields, buttonProps, onToggleSelect, isSelected, usePublicAuth =
     setTimeout(() => {
       setShowAlert(false);
     }, 2500);
-  }
+  };
 
   const toggleEmailModal = () => {
     setShowEmailModal(!showEmailModal);
@@ -151,7 +149,7 @@ const Card = ({ fields, buttonProps, onToggleSelect, isSelected, usePublicAuth =
   const closeEmailModal = () => {
     setShowEmailModal(false);
     setIsImgHovered(false);
-  }
+  };
 
   const baseURL = process.env.REACT_APP_MGNL_APP_HOST; 
   const apiBase = getAPIBase();
@@ -185,20 +183,20 @@ const Card = ({ fields, buttonProps, onToggleSelect, isSelected, usePublicAuth =
   return (
     <div className='assetCard' onMouseEnter={imageMouseEnter} onMouseLeave={imageMouseLeave}>
       <div className='assetCardPreview' onClick={toggleDetailsModal}>
-        <AssetPreview assetId={assetId} assetVersion={assetVersion} assetPageCount={assetPageCount} assetResourceType={assetResourceType} isModal={false} usePublicAuth={usePublicAuth}></AssetPreview>
-      </div>      
+        <AssetPreview assetId={assetId} assetVersion={assetVersion} assetPageCount={assetPageCount} assetResourceType={assetResourceType} isModal={false} usePublicAuth={usePublicAuth} />
+      </div>
       <div className={`assetActionButtons ${isImgHovered ? 'show' : ''}`}>
         {isDetailsButton && (
-          <button onClick={toggleDetailsModal}><GrZoomIn/></button>
+          <button onClick={toggleDetailsModal}><GrZoomIn /></button>
         )}
         {isDownloadButton && (
-          <button onClick={toggleDownloadModal}><FiDownload/></button>
+          <button onClick={toggleDownloadModal}><FiDownload /></button>
         )}
         {isCopyLinkButton && (
-          <button onClick={copyExternalLink}><FiLink/></button>
+          <button onClick={copyExternalLink}><FiLink /></button>
         )}
         {isEmailButton && (
-          <button onClick={toggleEmailModal}><FiMail/></button>
+          <button onClick={toggleEmailModal}><FiMail /></button>
         )}
       </div>
       <div className='assetCardContent'>
@@ -208,7 +206,7 @@ const Card = ({ fields, buttonProps, onToggleSelect, isSelected, usePublicAuth =
         <p><span>Last change: </span>{lastUpdatedTime}</p>
         <div className='fileFormatWrapper'>
           <div className='fileFormat'>{fileFormat}</div>
-          <div className="selectToggle">        
+          <div className="selectToggle">
             <button
               type="button"
               aria-pressed={!!isSelected}
@@ -221,30 +219,26 @@ const Card = ({ fields, buttonProps, onToggleSelect, isSelected, usePublicAuth =
               {isSelected ? (
                 <GoCheckCircleFill
                   size={24}
-                  style={{
-                    fill: '#0070b4'
-                  }}
+                  style={{ fill: '#0070b4' }}
                 />
               ) : (
                 <GoPlusCircle
                   size={24}
-                  style={{
-                    fill: '#0070b4'
-                  }}
+                  style={{ fill: '#0070b4' }}
                 />
               )}
             </button>
-          </div>        
-        </div>   
-      </div>      
+          </div>
+        </div>
+      </div>
 
       {showAlert && <AlertPopup showAlert={showAlert} alertMessage={message} />}
 
-      {showDetailsModal && <DetailsModal {...dataProps} isOpen={showDetailsModal} onClose={toggleDetailsModal}></DetailsModal>}      
-      {showDownloadModal && <DownloadModal assetId={assetId} language={language} license={license && license.fields} isOpen={showDownloadModal} onClose={toggleDownloadModal} closeModal={closeDownloadModal} showAlert={showAlertAfterDownload}></DownloadModal>}
-      {showEmailModal && <EmailModal assetId={assetId} isOpen={showEmailModal} onClose={toggleEmailModal} closeModal={closeEmailModal}></EmailModal>}
+      {showDetailsModal && <DetailsModal {...dataProps} isOpen={showDetailsModal} onClose={toggleDetailsModal} />}
+      {showDownloadModal && <DownloadModal assetId={assetId} language={language} license={license && license.fields} isOpen={showDownloadModal} onClose={toggleDownloadModal} closeModal={closeDownloadModal} showAlert={showAlertAfterDownload} />}
+      {showEmailModal && <EmailModal assetId={assetId} isOpen={showEmailModal} onClose={toggleEmailModal} closeModal={closeEmailModal} />}
     </div>
-  )
-}
+  );
+};
 
-export default Card
+export default Card;

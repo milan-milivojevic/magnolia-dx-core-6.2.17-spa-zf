@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react';
 import Modal from 'react-modal';
 import AssetPreview from '../helpers/AssetPreview';
 import AssetVersionCard from '../helpers/AssetVersionCard';
@@ -7,16 +7,12 @@ import RelatedAssetCard from '../helpers/RelatedAssetCard';
 import AlertPopup from '../helpers/AlertPopup';
 import DownloadModal from './DownloadModalIframe';
 import EmailModal from './EmailModal';
-
 import { downloadFileDirect, assetVersionsService, assetVariantsService, assetRelationsService } from '../../../api/searchService';
 import { getAPIBase } from '../../../helpers/AppHelpers';
-
 import { AiOutlineClose } from "react-icons/ai";
 import { FiDownload, FiLink, FiMail } from "react-icons/fi";
 
-
 const DetailsModal = (props) => {
-
   const {
     assetId,
     assetVersion,
@@ -54,18 +50,16 @@ const DetailsModal = (props) => {
   const apiBase = getAPIBase();
 
   const downloadFile = async () => {
-
     const data = await downloadFileDirect(assetId, selectedOption, download_version, language, null);
 
     if (typeof data[0].download_url !== 'undefined') {
-
       if (isMobileDevice()) {
         openLink(data[0].download_url, '_blank');
       } else {
         openLink(data[0].download_url, '_self');
       }
     }
-  }
+  };
 
   const isMobileDevice = () => {
     return /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
@@ -106,10 +100,11 @@ const DetailsModal = (props) => {
 
   const toggleDownloadModal = () => {
     setShowDownloadModal(!showDownloadModal);
-  }
+  };
+
   const closeDownloadModal = () => {
     setShowDownloadModal(false);
-  }
+  };
 
   const toggleEmailModal = () => {
     setShowEmailModal(!showEmailModal);
@@ -117,25 +112,25 @@ const DetailsModal = (props) => {
 
   const closeEmailModal = () => {
     setShowEmailModal(false);
-  }
+  };
 
   const getAssetVersions = async (assetId) => {
     const response = await assetVersionsService(assetId);
     setAssetVersions([]);
     setAssetVersions(response);
-  }
+  };
 
   const getAssetVariants = async (assetId) => {
     const response = await assetVariantsService(assetId);
     setAssetVariants([]);
     setAssetVariants(response.assetVariants);
-  }
+  };
 
   const getRelatedAssets = async (assetId) => {
     const response = await assetRelationsService(assetId);
     setRelatedAssets([]);
     setRelatedAssets(response.assets);
-  }
+  };
 
   useEffect(() => {
     getAssetVersions(assetId);
@@ -173,7 +168,7 @@ const DetailsModal = (props) => {
         }}
       >
         <div className='detailsModalWrapper detailOptions'>
-          <div class="closeButtonWrapper">
+          <div className="closeButtonWrapper">
             <div className='navButtons'>
               <button className={activeTab === 'preview' ? 'active' : ''} onClick={() => setActiveTab('preview')}>Preview</button>
               <button className={activeTab === 'versions' ? 'active' : ''} onClick={() => setActiveTab('versions')}>Versions</button>
@@ -187,7 +182,7 @@ const DetailsModal = (props) => {
           <div className='detailsModal'>
             <div className='detailsModalOptions'>
               {activeTab === 'preview' && (
-                <AssetPreview assetId={assetId} assetVersion={assetVersion} assetPageCount={assetPageCount} assetResourceType={assetResourceType} isModal={true} usePublicAuth={usePublicAuth}/>
+                <AssetPreview assetId={assetId} assetVersion={assetVersion} assetPageCount={assetPageCount} assetResourceType={assetResourceType} isModal={true} usePublicAuth={usePublicAuth} />
               )}
               {activeTab === 'versions' && (
                 <div className='assetVersions list'>
@@ -245,11 +240,10 @@ const DetailsModal = (props) => {
 
       {showAlert && <AlertPopup showAlert={showAlert} alertMessage={message} />}
 
-      {showDownloadModal && <DownloadModal assetId={assetId} language={language} license={license && license.fields} isOpen={showDownloadModal} onClose={toggleDownloadModal} closeModal={closeDownloadModal} ></DownloadModal>}
-      {showEmailModal && <EmailModal assetId={assetId} isOpen={showEmailModal} onClose={toggleEmailModal} closeModal={closeEmailModal}></EmailModal>}
-
+      {showDownloadModal && <DownloadModal assetId={assetId} language={language} license={license && license.fields} isOpen={showDownloadModal} onClose={toggleDownloadModal} closeModal={closeDownloadModal} />}
+      {showEmailModal && <EmailModal assetId={assetId} isOpen={showEmailModal} onClose={toggleEmailModal} closeModal={closeEmailModal} />}
     </div>
-  )
-}
+  );
+};
 
-export default DetailsModal
+export default DetailsModal;

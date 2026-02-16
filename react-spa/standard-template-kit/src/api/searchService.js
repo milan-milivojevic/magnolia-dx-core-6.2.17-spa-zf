@@ -1,8 +1,7 @@
-import payload from './mpPayload.json'
-import payloadSingleAsset from './mpSingleAssetPayload.json'
+import payload from './mpPayload.json';
+import payloadSingleAsset from './mpSingleAssetPayload.json';
 
 const BASE_URL = process.env.REACT_APP_MGNL_APP_HOST;
-console.log("BASE_URL :", BASE_URL);
 
 const apiServiceHandler = async (url, options) => {
   try {
@@ -119,10 +118,9 @@ const paylodID = (assetId) => {
   const payloadCopy = JSON.parse(JSON.stringify(payloadSingleAsset));
   payloadCopy.criteria.subs[0].value = '"' + assetId + '"';
   return payloadCopy;
-}
+};
 
 export const idSearch = async (assetId) => {
-
   assetId = assetId.startsWith("M-") ? assetId.substring(2) : assetId;
   assetId = assetId.startsWith("m-") ? assetId.substring(2) : assetId;
 
@@ -135,14 +133,14 @@ export const idSearch = async (assetId) => {
       "Content-Type": "application/json"
     },
     body: JSON.stringify(paylodID(assetId)),
-  })
+  });
 
   const data = await response;
 
   const matchingItem = data.items.find(item => item.fields.id.value.toString() === assetId);
 
   return matchingItem;
-}
+};
 
 
 export const downloadFileDirect = async (id, selectedOption, download_version, language, licenseId, usePublicAuth = false) => {
@@ -197,7 +195,6 @@ const updateCustomSearchPayload = (requestPayload, sortingType, isAsc, offset, l
 }
 
 export const customSearch = async (requestPayload, sortingType, isAsc, offset, limit) => {
-
   const updatedPayload = updateCustomSearchPayload(requestPayload, sortingType, isAsc, offset, limit);
 
   const token = await getApiBearerToken();
@@ -209,14 +206,12 @@ export const customSearch = async (requestPayload, sortingType, isAsc, offset, l
       "Content-Type": "application/json"
     },
     body: JSON.stringify(updatedPayload)
-  })
+  });
 
   const data = await response;
 
   return data;
-}
-
-
+};
 const updateSearchPayload = (
   sortingType,
   isAsc,
@@ -231,7 +226,6 @@ const updateSearchPayload = (
   selectedFilter2,
   selectedFilter3
 ) => {
-
   const sortingObject = sortingType === 'relevance'
     ? [{ "@type": sortingType, "asc": isAsc }]
     : [{ "@type": "field", "field": sortingType, "asc": isAsc }];
@@ -390,7 +384,7 @@ const updateSearchPayload = (
   }
 
   return updatedPayload;
-}
+};
 
 export const elasticSearchService = async (
   sortingType,
@@ -432,14 +426,13 @@ export const elasticSearchService = async (
       "Content-Type": "application/json"
     },
     body: JSON.stringify(updatedPayload),
-
     ...(usePublicAuth ? { credentials: "omit" } : {})
-  })
+  });
 
   const data = await response;
 
   return data;
-}
+};
 
 export const querySearch = async (
   sortingType,
@@ -456,7 +449,6 @@ export const querySearch = async (
   selectedFilter3,
   usePublicAuth = false
 ) => {
-
   const updatedPayload = updateSearchPayload(
     sortingType,
     isAsc,
@@ -481,20 +473,18 @@ export const querySearch = async (
       "Content-Type": "application/json"
     },
     body: JSON.stringify(updatedPayload),
-
     ...(usePublicAuth ? { credentials: "omit" } : {})
-  })
+  });
 
   const data = await response;
 
   return data;
-}
+};
 
 export const assetVersionsService = async (assetId) => {
-
   const response = apiServiceHandler(`${BASE_URL}/rest/mp/v1.0/versions/assets/${assetId}`, {
     method: 'GET',
-  })
+  });
 
   const assetVersions = await response;
 
@@ -502,25 +492,20 @@ export const assetVersionsService = async (assetId) => {
 };
 
 export const assetVariantsService = async (assetId) => {
-
   const response = apiServiceHandler(`${BASE_URL}/rest/mp/v1.0/assets/masters/${assetId}/variants`, {
     method: 'GET',
-  })
+  });
 
   const assetVariants = await response;
 
   return assetVariants;
 };
 
-
 export const assetRelationsService = async (assetId) => {
   try {
     const relationsArray = await apiServiceHandler(`${BASE_URL}/rest/mp/v1.2/assets/${assetId}/relations`, {
       method: 'GET',
     });
-
-    console.log("relationsArray");
-    console.log(relationsArray);
 
     const relationsArrayUniqueIds = relationsArray.relations
       .map(item => item.relatedAssetId)
@@ -529,9 +514,6 @@ export const assetRelationsService = async (assetId) => {
       }, []);
 
     const payloadArray = relationsArrayUniqueIds.map(assetId => ({ assetId }));
-
-    console.log("payloadArray");
-    console.log(payloadArray);
 
     const token = await getApiBearerToken();
 
@@ -546,15 +528,9 @@ export const assetRelationsService = async (assetId) => {
 
     const relatedAssets = await response;
 
-    console.log("relatedAssets");
-    console.log(relatedAssets);
-
     return relatedAssets;
-
   } catch (error) {
     console.error("Asset Relations Service Error" + error);
     return null;
   }
 };
-
-
