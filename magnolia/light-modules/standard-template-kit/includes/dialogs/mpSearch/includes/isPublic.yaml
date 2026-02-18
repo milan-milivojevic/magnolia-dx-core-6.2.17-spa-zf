@@ -1,0 +1,13 @@
+label: Public Component (No login required)
+$type: compositeField
+layout:
+  $type: stacked
+itemProvider:
+  $type: currentItemProvider
+properties:
+  isPublic:
+    $type: checkBoxField
+    defaultValue: false
+    label: ""
+    buttonLabel: "yes/no"
+  

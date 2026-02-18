@@ -1,0 +1,86 @@
+label: MP Widgets Search
+wide: true
+form:
+  properties:
+
+    widgets:
+      $type: compositeField
+      label: Choose Widgets
+      itemProvider:
+        $type: jcrChildNodeProvider
+      properties:
+        themesFilter:
+          $type: checkBoxField
+          buttonLabel: Themes Filter     
+          label: ""
+          defaultValue: true
+        fileInfoFilter:
+          $type: checkBoxField
+          buttonLabel: File Info Filter     
+          label: ""
+          defaultValue: true
+        keywordsFilter:
+          $type: checkBoxField
+          buttonLabel: Keywords Filter     
+          label: ""
+          defaultValue: true
+        vdbFilter:
+          $type: checkBoxField
+          buttonLabel: Vdb Filter     
+          label: ""
+          defaultValue: true
+        categoriesFilter:
+          $type: checkBoxField
+          buttonLabel: Categories Filter  
+          label: ""
+          defaultValue: true
+        assetTypeFilter:
+          $type: checkBoxField
+          buttonLabel: Asset Type Filter     
+          label: ""
+          defaultValue: true
+        assetGroupFilter:
+          $type: checkBoxField
+          buttonLabel: Asset Group Filter     
+          label: ""
+          defaultValue: true
+            
+    widgetsSearchConfig: !include:/standard-template-kit/includes/dialogs/mpSearch/widgetsSearchConfig.yaml
+    linkToSearchResult: !include:/standard-template-kit/includes/dialogs/mpCarousel/linkToSearchResult.yaml
+    actions: !include:/standard-template-kit/includes/dialogs/mpSearch/actions.yaml
+
+    title: !include:/standard-template-kit/includes/dialogs/mpAsset/title.yaml
+    titleStyles: !include:/standard-template-kit/includes/dialogs/mpAsset/titleStyles.yaml
+    titlePaddings: !include:/standard-template-kit/includes/dialogs/mpAsset/titlePaddings.yaml
+    navigationId: !include:/standard-template-kit/includes/dialogs/text/includes/navigationId.yaml
+
+  layout:
+    $type: tabbedLayout
+    tabs:
+      - name: title
+      - label: Title
+        fields:
+          - name: title
+          - name: titleStyles
+          - name: titlePaddings
+          - name: navigationId
+          
+      - name: searchLink
+      - label: Search Link
+        fields:
+          - name: linkToSearchResult
+
+      - name: widgets
+      - label: Widgets/Filters
+        fields:
+          - name: widgets
+
+      - name: searchConfig
+      - label: Search Config
+        fields:
+          - name: widgetsSearchConfig
+
+      - name: actions
+      - label: Actions
+        fields:
+          - name: actions

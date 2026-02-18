@@ -1,0 +1,15 @@
+{   
+    "ids": [
+    ],
+    "searchText": "",
+    "propertySelections": {},
+    "showSmartPages": null,
+    "showSmartBlocks": null,
+    "showArchived": null,
+    "showInvalid": true,
+    "showOwnTemplates": true,
+    "statuses": [
+        0,
+        1
+    ]
+}

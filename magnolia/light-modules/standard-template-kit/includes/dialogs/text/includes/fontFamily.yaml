@@ -1,0 +1,29 @@
+label: Font Family
+$type: comboBoxField
+datasource:
+  $type: optionListDatasource
+  options:
+    - name: default
+      value: default
+      label: default
+    - name: ZFPrometeoLight
+      value: ZFPrometeoLight
+      label: ZFPrometeoLight
+    - name: ZFPrometeoMedium
+      value: ZFPrometeoMedium
+      label: ZFPrometeoMedium
+    - name: ZFPrometeoBold
+      value: ZFPrometeoBold
+      label: ZFPrometeoBold
+    - name: ZFPrometeoThin
+      value: ZFPrometeoThin
+      label: ZFPrometeoThin
+    - name: ZFSansLight
+      value: ZFSansLight
+      label: ZFSansLight   
+    - name: ZFSansMedium
+      value: ZFSansMedium
+      label: ZFSansMedium
+    - name: ZFSansBold
+      value: ZFSansBold
+      label: ZFSansBold

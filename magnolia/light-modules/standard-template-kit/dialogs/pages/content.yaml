@@ -1,0 +1,24 @@
+label: Content Page
+form:
+  properties:
+    title:
+      label: Title
+      $type: textField
+    hide: 
+      label: Hide in Navigation
+      buttonLabel: yes/no
+      $type: checkBoxField
+    acl: !include:/standard-template-kit/includes/dialogs/acl/acl.yaml
+
+  layout:
+    $type: tabbedLayout
+    tabs:
+      - name: Page Properties
+      - label: Page Properties 
+        fields:
+          - name: title
+          - name: hide
+      - name: acl
+      - label: Audience Control
+        fields:
+          - name: acl
