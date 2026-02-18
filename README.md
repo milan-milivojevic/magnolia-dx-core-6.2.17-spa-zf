@@ -36,3 +36,18 @@ This cleans the previous build, builds the app using `.env.mgnl`, and copies the
 |---|---|
 | `.env` | Local development — points to the live Magnolia host |
 | `.env.mgnl` | Production build — `PUBLIC_URL` set for light module serving, `REACT_APP_MGNL_HOST` left empty for relative API calls |
+
+## Deployment to Production
+
+After building the project with `npm run deploy:mgnl`:
+
+1. **Zip the light module folder:**
+   - `magnolia-dx-core-6.2.17-spa-zf/magnolia/light-modules/standard-template-kit/`
+
+2. **Create ITO ticket** requesting:
+   - Unzip the provided archive
+   - Add contents to the Magnolia `light-modules` folder on the server
+   - Restart Docker containers
+
+3. **Verify** the changes are reflected after container restart
+
